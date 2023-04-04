@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
+import { AppBar, Toolbar, Container, Button } from '@mui/material';
 
 import defaultLogo from '../images/logo1.svg';
 
@@ -12,20 +11,24 @@ export default function Header() {
   const onClickLogout = () => {};
 
   return (
-    <div
-      style={{
-        height: '80px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+    <AppBar
+      position="static"
+      sx={{
+        // height: '80px',
+        // display: 'flex',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        paddingTop: '10px',
+        paddingBottom: '10px',
         fontSize: 40,
         color: '#010101',
         background: '#3f50b5',
       }}
     >
-      <Container maxWidth="lg">
-        <div
-          style={{
+      <Toolbar>
+        <Container
+          maxWidth="lg"
+          sx={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -53,7 +56,7 @@ export default function Header() {
                 <Link to="/login" style={{ marginRight: '20px' }}>
                   <Button
                     variant="outlined"
-                    style={{
+                    sx={{
                       color: '#fff',
                       borderColor: '#fff',
                     }}
@@ -67,8 +70,8 @@ export default function Header() {
               </>
             )}
           </div>
-        </div>
-      </Container>
-    </div>
+        </Container>
+      </Toolbar>
+    </AppBar>
   );
 }

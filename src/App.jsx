@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import Container from '@mui/material/Container';
+import { Box, Container } from '@mui/material';
 
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
@@ -10,7 +10,7 @@ import RegistrationPage from './pages/RegistrationPage';
 
 export const App = () => {
   return (
-    <>
+    <Box sx={{ bgcolor: 'antiquewhite' }}>
       <Header />
       <Container maxWidth="lg">
         <Routes>
@@ -21,7 +21,7 @@ export const App = () => {
           <Route path="/register" element={<RegistrationPage />} />
         </Routes>
       </Container>
-    </>
+    </Box>
   );
 };
 
