@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Grid from '@mui/material/Grid';
+import { Grid, Tabs, Tab } from '@mui/material';
 
 import Post from '../components/Post';
-// import PostSkeleton from 'components/Skeleton';
 import TagsBlock from '../components/TagsBlock';
 import CommentsBlock from '../components/CommentsBlock';
 
@@ -32,27 +29,29 @@ export default function HomePage() {
         <Tab label="Популярные"></Tab>
       </Tabs>
       <Grid container spacing={4}>
-        <Grid item xs={8}>
-          {Array.from(Array(5)).map((_, i) => (
-            <div key={i}>
+        <Grid item xs={8} spacing={2}>
+          {(posts.isLoading ? [...Array(5)] : posts.items).map((post, index) =>
+            posts.isLoading ? (
+              <Post key={index} isLoading={true} />
+            ) : (
               <Post
-              // _id,
-              // title,
-              // createdAt,
-              // imageUrl,
-              // user,
-              // viewsCount,
-              // commentsCount,
-              // tags,
-              // children,
-              // isFullPost,
-              // isLoading,
-              // isEditable,
+                key={index}
+                _id={post._id}
+                title={post.title}
+                createdAt={post.createdAt}
+                imageUrl={post.imageUrl}
+                user={post.user}
+                viewsCount={post.viewsCount}
+                commentsCount={post.commentsCount}
+                tags={post.tags}
+                isEditable
               />
-              <TagsBlock />
-              <CommentsBlock />
-            </div>
-          ))}
+            )
+          )}
+        </Grid>
+        <Grid item xs={4}>
+          <TagsBlock />
+          <CommentsBlock />
         </Grid>
       </Grid>
     </>
