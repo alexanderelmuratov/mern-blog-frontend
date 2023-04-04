@@ -10,6 +10,15 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   }
 });
 
+export const fetchTags = createAsyncThunk('tags/fetchTags', async () => {
+  try {
+    const { data } = await axios.get('/tags');
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const initialState = {
   posts: {
     items: [],
