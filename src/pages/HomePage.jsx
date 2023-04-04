@@ -6,16 +6,17 @@ import Post from '../components/Post';
 import TagsBlock from '../components/TagsBlock';
 import CommentsBlock from '../components/CommentsBlock';
 
-import { fetchPosts } from '../redux/slices/posts';
+import { fetchPosts, fetchTags } from '../redux/slices/posts';
 
 export default function HomePage() {
-  const { posts } = useSelector(state => state.posts);
+  const { posts, tags } = useSelector(state => state.posts);
   const dispatch = useDispatch();
 
   console.log(posts);
 
   useEffect(() => {
     dispatch(fetchPosts());
+    dispatch(fetchTags());
   }, [dispatch]);
 
   return (
@@ -50,7 +51,7 @@ export default function HomePage() {
           )}
         </Grid>
         <Grid item xs={4}>
-          <TagsBlock />
+          <TagsBlock tags={tags.items} isLoading={tags.isLoading} />
           <CommentsBlock />
         </Grid>
       </Grid>

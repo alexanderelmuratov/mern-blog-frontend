@@ -28,8 +28,6 @@ const initialState = {
     items: [],
     isLoading: false,
   },
-  // items: [],
-  // isLoading: false,
 };
 
 const postsSlice = createSlice({
@@ -47,6 +45,18 @@ const postsSlice = createSlice({
     [fetchPosts.rejected]: state => {
       state.posts.items = [];
       state.posts.isLoading = false;
+    },
+    [fetchTags.pending]: state => {
+      state.tags.items = [];
+      state.tags.isLoading = true;
+    },
+    [fetchTags.fulfilled]: (state, action) => {
+      state.tags.items = action.payload;
+      state.tags.isLoading = false;
+    },
+    [fetchTags.rejected]: state => {
+      state.tags.items = [];
+      state.tags.isLoading = false;
     },
   },
 });
