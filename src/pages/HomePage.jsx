@@ -12,8 +12,6 @@ export default function HomePage() {
   const { posts, tags } = useSelector(state => state.posts);
   const dispatch = useDispatch();
 
-  console.log(posts);
-
   useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchTags());
