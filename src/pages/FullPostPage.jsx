@@ -1,29 +1,63 @@
-// import { useState, useEffect } from 'react';
-// import { useParams } from 'react-router-dom';
-// import Post from 'components/Post';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-// import axios from '../axios';
+import { Box } from '@mui/material';
+import Post from 'components/Post';
+import AddComment from 'components/AddComment';
+
+import axios from '../axios';
 
 export default function FullPostPage() {
-  // const [data, setData] = useState();
-  // const [isLoading, setIsLoading] = useState();
-  // const { id } = useParams();
+  const [fullPost, setFullPost] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const { id } = useParams();
 
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    const fetchFullPost = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(`/posts/${id}`);
+        setFullPost(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchFullPost();
+
+    // setIsLoading(true);
+    // axios
+    //   .get(`/posts/${id}`)
+    //   .then(res => {
+    //     setFullPost(res.data);
+    //   })
+    //   .catch(error => console.log(error))
+    //   .finally(setIsLoading(false));
+  }, [id]);
+
+  console.log(fullPost);
 
   return (
-    <div>FullPostPage</div>
-    // <Post
-    // key={index}
-    // _id={post._id}
-    // title={post.title}
-    // createdAt={post.createdAt}
-    // imageUrl={post.imageUrl}
-    // user={post.user}
-    // viewsCount={post.viewsCount}
-    // commentsCount={post.commentsCount}
-    // tags={post.tags}
-    // isEditable
-    // />
+    <Box sx={{ marginTop: 3 }}>
+      {isLoading ? (
+        <Post isLoading={isLoading} />
+      ) : (
+        <Post
+          _id={fullPost._id}
+          title={fullPost.title}
+          text={fullPost.text}
+          createdAt={fullPost.createdAt}
+          imageUrl={fullPost.imageUrl}
+          user={fullPost.user}
+          viewsCount={fullPost.viewsCount}
+          commentsCount={fullPost.commentsCount}
+          tags={fullPost.tags}
+          isFullPost
+          isEditable
+        />
+      )}
+      <AddComment />
+    </Box>
   );
 }

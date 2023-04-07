@@ -26,12 +26,16 @@ export default function PostSkeleton() {
               <Skeleton variant="text" width={100} height={15} />
             </Box>
           </Box>
-          <Box>
+          <Box sx={{ marginTop: 2 }}>
             <Skeleton variant="text" width="80%" height={45} />
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Skeleton variant="text" width={40} height={30} />
               <Skeleton variant="text" width={40} height={30} />
               <Skeleton variant="text" width={40} height={30} />
+            </Box>
+            <Box sx={{ display: 'flex', gap: 2, marginTop: 2 }}>
+              <Skeleton variant="rectangular" width={20} height={20} />
+              <Skeleton variant="rectangular" width={20} height={20} />
             </Box>
           </Box>
         </Box>

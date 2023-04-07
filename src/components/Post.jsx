@@ -30,11 +30,9 @@ export default function Post({
   isLoading,
   isEditable,
 }) {
-  const onClickRemove = () => {};
+  const formatedDate = new Date(createdAt).toUTCString();
 
-  // const isFullPost = true;
-  // const isLoading = false;
-  // const isEditable = true;
+  const onClickRemove = () => {};
 
   if (isLoading) return <PostSkeleton />;
 
@@ -55,19 +53,22 @@ export default function Post({
           </IconButton>
         </CardActions>
       )}
-      <CardMedia
-        component="img"
-        height="20%"
-        image={imageUrl}
-        alt="Paella dish"
-      />
+      {imageUrl && (
+        <CardMedia
+          component="img"
+          // sx={{ height: '100%' }}
+          // height="20%"
+          image={imageUrl}
+          alt="Paella dish"
+        />
+      )}
       <CardHeader
         avatar={<Avatar src={user.avatarUrl} aria-label="recipe" />}
         title={user.fullName}
-        subheader={createdAt}
+        subheader={formatedDate}
       />
-      <CardContent>
-        <Box>
+      <CardContent sx={{ paddingTop: 0 }}>
+        <Box sx={{ paddingLeft: '10px' }}>
           <Typography variant="h5" color="text.primary">
             {isFullPost ? (
               title
@@ -78,7 +79,11 @@ export default function Post({
             )}
           </Typography>
           {isFullPost && (
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ marginTop: 2 }}
+            >
               {text}
             </Typography>
           )}
@@ -86,7 +91,11 @@ export default function Post({
         <ul style={{ display: 'flex', padding: '10px' }}>
           {tags.map(tag => (
             <li key={tag} style={{ marginRight: '10px' }}>
-              <Typography variant="body1" color="text.secondary">
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                fontStyle="italic"
+              >
                 #{tag}
               </Typography>
             </li>

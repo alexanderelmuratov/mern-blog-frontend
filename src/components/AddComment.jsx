@@ -1,18 +1,15 @@
 import React from 'react';
-import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+
+import { Avatar, Button, Card, TextField } from '@mui/material';
 
 export default function AddComment() {
   return (
-    <div
-      style={{
-        padding: '20px',
+    <Card
+      sx={{
+        padding: 4,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        fontSize: 24,
-        color: '#010101',
       }}
     >
       <Avatar
@@ -23,6 +20,7 @@ export default function AddComment() {
       <div
         style={{
           // padding: '20px',
+          width: '50%',
           marginTop: '20px',
           display: 'flex',
           flexDirection: 'column',
@@ -41,13 +39,13 @@ export default function AddComment() {
         />
         <Button
           variant="contained"
-          style={{
+          sx={{
             marginTop: '20px',
           }}
         >
           Отправить
         </Button>
       </div>
-    </div>
+    </Card>
   );
 }
