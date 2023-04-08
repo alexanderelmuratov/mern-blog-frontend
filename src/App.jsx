@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Box, Container } from '@mui/material';
 
 import Header from './components/Header';
@@ -7,10 +9,20 @@ import FullPostPage from './pages/FullPostPage';
 import AddPostPage from './pages/AddPostPage';
 import LoginPage from './pages/LoginPage';
 import RegistrationPage from './pages/RegistrationPage';
+import { fetchAuthMe } from 'redux/slices/auth';
 
 export const App = () => {
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isAuth) {
+      dispatch(fetchAuthMe());
+    }
+  }, [isAuth, dispatch]);
+
   return (
-    <Box sx={{ bgcolor: 'antiquewhite' }}>
+    <Box sx={{ bgcolor: 'antiquewhite', minHeight: '100vh' }}>
       <Header />
       <Container maxWidth="lg">
         <Routes>

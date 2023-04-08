@@ -1,21 +1,26 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../axios';
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  try {
-    const { data } = await axios.get('/posts');
-    return data;
-  } catch (error) {
-    console.log(error);
+export const fetchPosts = createAsyncThunk(
+  'posts/fetchPosts',
+  async thunkAPI => {
+    try {
+      const { data } = await axios.get('/posts');
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue();
+    }
   }
-});
+);
 
-export const fetchTags = createAsyncThunk('tags/fetchTags', async () => {
+export const fetchTags = createAsyncThunk('tags/fetchTags', async thunkAPI => {
   try {
     const { data } = await axios.get('/tags');
     return data;
   } catch (error) {
     console.log(error);
+    return thunkAPI.rejectWithValue();
   }
 });
 

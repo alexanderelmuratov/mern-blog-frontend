@@ -56,7 +56,7 @@ export default function Post({
       {imageUrl && (
         <CardMedia
           component="img"
-          // sx={{ height: '100%' }}
+          // sx={{ height: '20%' }}
           // height="20%"
           image={imageUrl}
           alt="Paella dish"

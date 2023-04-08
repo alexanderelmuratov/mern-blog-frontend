@@ -25,15 +25,6 @@ export default function FullPostPage() {
       }
     };
     fetchFullPost();
-
-    // setIsLoading(true);
-    // axios
-    //   .get(`/posts/${id}`)
-    //   .then(res => {
-    //     setFullPost(res.data);
-    //   })
-    //   .catch(error => console.log(error))
-    //   .finally(setIsLoading(false));
   }, [id]);
 
   console.log(fullPost);

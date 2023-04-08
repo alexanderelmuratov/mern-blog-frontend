@@ -1,23 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { AppBar, Toolbar, Container, Button } from '@mui/material';
+
+import { logout } from 'redux/slices/auth';
 
 import defaultLogo from '../images/logo1.svg';
 
 export default function Header() {
-  const logo = defaultLogo;
-  const isAuth = false;
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const dispatch = useDispatch();
 
-  const onClickLogout = () => {};
+  const logo = defaultLogo;
+
+  const onClickLogout = () => {
+    if (window.confirm('Вы действительно хотите выйти?')) {
+      dispatch(logout());
+      localStorage.removeItem('token');
+    }
+  };
 
   return (
     <AppBar
       position="static"
       sx={{
-        // height: '80px',
-        // display: 'flex',
-        // justifyContent: 'center',
-        // alignItems: 'center',
         paddingTop: '10px',
         paddingBottom: '10px',
         fontSize: 40,
