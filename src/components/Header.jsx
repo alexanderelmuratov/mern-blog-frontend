@@ -1,14 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppBar, Toolbar, Container, Button } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Container,
+  Button,
+  Avatar,
+  Box,
+  Typography,
+} from '@mui/material';
 
 import { logout } from 'redux/slices/auth';
 
 import defaultLogo from '../images/logo1.svg';
 
 export default function Header() {
-  const isAuth = useSelector(state => state.auth.isAuth);
+  const { userData, isAuth } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const logo = defaultLogo;
@@ -45,18 +53,31 @@ export default function Header() {
           </Link>
           <div>
             {isAuth ? (
-              <>
-                <Link to="/posts/create" style={{ marginRight: '20px' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography
+                  variant="h6"
+                  sx={{ marginRight: '20px', color: '#fff' }}
+                >
+                  {userData.fullName}
+                </Typography>
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://mui.com/static/images/avatar/1.jpg"
+                  sx={{ width: 50, height: 50, marginRight: '20px' }}
+                />
+                <Link to="/addpost" style={{ marginRight: '20px' }}>
                   <Button variant="contained">Написать статью</Button>
                 </Link>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={onClickLogout}
-                >
-                  Выйти
-                </Button>
-              </>
+                <Link to="/login">
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={onClickLogout}
+                  >
+                    Выйти
+                  </Button>
+                </Link>
+              </Box>
             ) : (
               <>
                 <Link to="/login" style={{ marginRight: '20px' }}>

@@ -10,6 +10,7 @@ import { fetchPosts, fetchTags } from '../redux/slices/posts';
 
 export default function HomePage() {
   const { posts, tags } = useSelector(state => state.posts);
+  const userData = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function HomePage() {
                 viewsCount={post.viewsCount}
                 commentsCount={post.commentsCount}
                 tags={post.tags}
-                isEditable
+                isEditable={userData?._id === post.user._id}
               />
             )
           )}
