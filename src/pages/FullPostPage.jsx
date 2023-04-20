@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { Box } from '@mui/material';
 import Post from 'components/Post';
@@ -8,8 +9,11 @@ import AddComment from 'components/AddComment';
 import axios from '../axios';
 
 export default function FullPostPage() {
-  const [fullPost, setFullPost] = useState();
+  const [fullPost, setFullPost] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const isAuth = useSelector(state => state.auth.isAuth);
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -28,6 +32,10 @@ export default function FullPostPage() {
   }, [id]);
 
   console.log(fullPost);
+
+  if (!localStorage.getItem('token') && !isAuth) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <Box sx={{ marginTop: 3 }}>

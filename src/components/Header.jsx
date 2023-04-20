@@ -65,7 +65,7 @@ export default function Header() {
                   src="https://mui.com/static/images/avatar/1.jpg"
                   sx={{ width: 50, height: 50, marginRight: '20px' }}
                 />
-                <Link to="/addpost" style={{ marginRight: '20px' }}>
+                <Link to="/add-post" style={{ marginRight: '20px' }}>
                   <Button variant="contained">Написать статью</Button>
                 </Link>
                 <Link to="/login">
