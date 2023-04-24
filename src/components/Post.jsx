@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   Avatar,
   Box,
@@ -15,6 +16,7 @@ import {
 } from '@mui/material';
 import { Comment, Delete, Edit, RemoveRedEye } from '@mui/icons-material';
 import PostSkeleton from './Skeleton';
+import { fetchRemovePost } from 'redux/slices/posts';
 
 export default function Post({
   _id,
@@ -31,9 +33,15 @@ export default function Post({
   isEditable,
   children,
 }) {
+  const dispatch = useDispatch();
+
   const formatedDate = new Date(createdAt).toLocaleString();
 
-  const onClickRemove = () => {};
+  const onClickRemove = () => {
+    if (window.confirm('Вы действительно хотите удалить статью?')) {
+      dispatch(fetchRemovePost(_id));
+    }
+  };
 
   if (isLoading) return <PostSkeleton />;
 
@@ -59,7 +67,7 @@ export default function Post({
           component="img"
           height="20%"
           image={imageUrl}
-          alt="Paella dish"
+          alt="Post image"
         />
       )}
       <CardHeader
@@ -78,15 +86,7 @@ export default function Post({
               </Link>
             )}
           </Typography>
-          {children && (
-            // <Typography
-            //   variant="body2"
-            //   color="text.secondary"
-            //   sx={{ marginTop: 2 }}
-            // >
-            // </Typography>
-            <Box sx={{ marginTop: 2 }}>{children}</Box>
-          )}
+          {children && <Box sx={{ marginTop: 2 }}>{children}</Box>}
         </Box>
         <ul style={{ display: 'flex', padding: '10px' }}>
           {tags.map(tag => (

@@ -1,5 +1,5 @@
-import { useState, useCallback, useMemo, useRef } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Box, Button, Paper, TextField } from '@mui/material';
 import { Close } from '@mui/icons-material';
@@ -9,6 +9,9 @@ import 'easymde/dist/easymde.min.css';
 import axios from '../axios';
 
 export default function AddPostPage() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
@@ -20,11 +23,25 @@ export default function AddPostPage() {
 
   const inputFileRef = useRef(null);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`/posts/${id}`)
+        .then(({ data }) => {
+          setTitle(data.title);
+          setText(data.text);
+          setTags(data.tags.join(' '));
+          setImageUrl(data.imageUrl);
+        })
+        .catch(error => console.log(error));
+    }
+  }, [id]);
 
   const onChange = useCallback(value => {
     setText(value);
   }, []);
+
+  console.log(tags);
 
   const options = useMemo(
     () => ({
@@ -67,7 +84,12 @@ export default function AddPostPage() {
         imageUrl,
       };
 
-      const { data } = await axios.post('/posts', fields);
+      console.log(fields);
+
+      const { data } = id
+        ? await axios.patch(`/posts/${id}`, fields)
+        : await axios.post('/posts', fields);
+
       navigate(`/posts/${data._id}`);
     } catch (error) {
       console.log(error);
@@ -110,14 +132,9 @@ export default function AddPostPage() {
             marginBottom: 2,
           }}
         >
-          <img
-            src={`http://localhost:4000${imageUrl}`}
-            alt="Uploaded"
-            // style={{ maxWidth: '100%', height: 'auto' }}
-          />
+          <img src={`http://localhost:4000${imageUrl}`} alt="Uploaded" />
           <Button
             variant="outlined"
-            // color="error"
             onClick={removeImage}
             sx={{ position: 'absolute', top: 10, right: 10 }}
           >
@@ -150,7 +167,7 @@ export default function AddPostPage() {
           size="large"
           sx={{ marginRight: 2 }}
         >
-          Опубликовать
+          {id ? 'Сохранить' : 'Опубликовать'}
         </Button>
         <Button variant="outlined" size="large">
           Отмена

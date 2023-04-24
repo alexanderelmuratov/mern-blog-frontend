@@ -24,11 +24,12 @@ export const fetchTags = createAsyncThunk('tags/fetchTags', async thunkAPI => {
   }
 });
 
-export const fetchDeletePost = createAsyncThunk(
-  'posts/fetchDeletePost',
+export const fetchRemovePost = createAsyncThunk(
+  'posts/fetchRemovePost',
   async (id, thunkAPI) => {
     try {
       await axios.delete(`/posts/${id}`);
+      return id;
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue();
@@ -51,6 +52,7 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   extraReducers: {
+    // Получение статей
     [fetchPosts.pending]: state => {
       state.posts.items = [];
       state.posts.isLoading = true;
@@ -63,6 +65,7 @@ const postsSlice = createSlice({
       state.posts.items = [];
       state.posts.isLoading = false;
     },
+    // Получение тегов
     [fetchTags.pending]: state => {
       state.tags.items = [];
       state.tags.isLoading = true;
@@ -74,6 +77,19 @@ const postsSlice = createSlice({
     [fetchTags.rejected]: state => {
       state.tags.items = [];
       state.tags.isLoading = false;
+    },
+    // Удаление статьи
+    [fetchRemovePost.pending]: state => {
+      state.posts.isLoading = true;
+    },
+    [fetchRemovePost.fulfilled]: (state, action) => {
+      state.posts.items = state.posts.items.filter(
+        item => item._id !== action.payload
+      );
+      state.posts.isLoading = false;
+    },
+    [fetchRemovePost.rejected]: state => {
+      state.posts.isLoading = false;
     },
   },
 });

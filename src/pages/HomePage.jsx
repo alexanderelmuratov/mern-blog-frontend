@@ -39,7 +39,9 @@ export default function HomePage() {
                 _id={post._id}
                 title={post.title}
                 createdAt={post.createdAt}
-                imageUrl={`http://localhost:4000${post.imageUrl}`}
+                imageUrl={
+                  post.imageUrl ? `http://localhost:4000${post.imageUrl}` : ''
+                }
                 user={post.user}
                 viewsCount={post.viewsCount}
                 commentsCount={post.commentsCount}

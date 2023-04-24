@@ -49,7 +49,9 @@ export default function FullPostPage() {
           title={fullPost.title}
           text={fullPost.text}
           createdAt={fullPost.createdAt}
-          imageUrl={`http://localhost:4000${fullPost.imageUrl}`}
+          imageUrl={
+            fullPost.imageUrl ? `http://localhost:4000${fullPost.imageUrl}` : ''
+          }
           user={fullPost.user}
           viewsCount={fullPost.viewsCount}
           commentsCount={fullPost.commentsCount}

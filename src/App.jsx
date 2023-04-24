@@ -28,6 +28,7 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/posts/:id" element={<FullPostPage />} />
+          <Route path="/posts/:id/edit" element={<AddPostPage />} />
           <Route path="/add-post" element={<AddPostPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
