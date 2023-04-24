@@ -24,6 +24,18 @@ export const fetchTags = createAsyncThunk('tags/fetchTags', async thunkAPI => {
   }
 });
 
+export const fetchDeletePost = createAsyncThunk(
+  'posts/fetchDeletePost',
+  async (id, thunkAPI) => {
+    try {
+      await axios.delete(`/posts/${id}`);
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = {
   posts: {
     items: [],

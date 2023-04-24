@@ -11,14 +11,14 @@ import axios from '../axios';
 export default function AddPostPage() {
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   console.log(isLoading);
 
   const isAuth = useSelector(state => state.auth.isAuth);
 
-  const inputFileRef = useRef();
+  const inputFileRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -63,7 +63,7 @@ export default function AddPostPage() {
       const fields = {
         title,
         text,
-        tags,
+        tags: tags.split(' '),
         imageUrl,
       };
 
@@ -113,13 +113,13 @@ export default function AddPostPage() {
           <img
             src={`http://localhost:4000${imageUrl}`}
             alt="Uploaded"
-            sx={{ maxWidth: '100%', height: 'auto' }}
+            // style={{ maxWidth: '100%', height: 'auto' }}
           />
           <Button
             variant="outlined"
             // color="error"
             onClick={removeImage}
-            sx={{ position: 'absolute', top: 10, right: 10, color: '#fff' }}
+            sx={{ position: 'absolute', top: 10, right: 10 }}
           >
             <Close />
           </Button>
@@ -135,7 +135,7 @@ export default function AddPostPage() {
       />
       <TextField
         value={tags}
-        onChange={e => setTags([e.target.value])}
+        onChange={e => setTags(e.target.value)}
         variant="outlined"
         placeholder="Тэги..."
         fullWidth

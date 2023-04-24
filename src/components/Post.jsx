@@ -19,7 +19,7 @@ import PostSkeleton from './Skeleton';
 export default function Post({
   _id,
   title,
-  text,
+  // text,
   createdAt,
   imageUrl,
   user,
@@ -29,8 +29,9 @@ export default function Post({
   isFullPost,
   isLoading,
   isEditable,
+  children,
 }) {
-  const formatedDate = new Date(createdAt).toUTCString();
+  const formatedDate = new Date(createdAt).toLocaleString();
 
   const onClickRemove = () => {};
 
@@ -77,14 +78,14 @@ export default function Post({
               </Link>
             )}
           </Typography>
-          {isFullPost && (
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ marginTop: 2 }}
-            >
-              {text}
-            </Typography>
+          {children && (
+            // <Typography
+            //   variant="body2"
+            //   color="text.secondary"
+            //   sx={{ marginTop: 2 }}
+            // >
+            // </Typography>
+            <Box sx={{ marginTop: 2 }}>{children}</Box>
           )}
         </Box>
         <ul style={{ display: 'flex', padding: '10px' }}>

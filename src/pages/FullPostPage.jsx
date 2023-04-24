@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import { Box } from '@mui/material';
 import Post from 'components/Post';
@@ -47,14 +49,16 @@ export default function FullPostPage() {
           title={fullPost.title}
           text={fullPost.text}
           createdAt={fullPost.createdAt}
-          imageUrl={fullPost.imageUrl}
+          imageUrl={`http://localhost:4000${fullPost.imageUrl}`}
           user={fullPost.user}
           viewsCount={fullPost.viewsCount}
           commentsCount={fullPost.commentsCount}
           tags={fullPost.tags}
           isFullPost
           isEditable
-        />
+        >
+          <ReactMarkdown children={fullPost.text} remarkPlugins={[remarkGfm]} />
+        </Post>
       )}
       <AddComment />
     </Box>
