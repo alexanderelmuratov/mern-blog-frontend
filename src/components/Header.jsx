@@ -28,6 +28,18 @@ export default function Header() {
     }
   };
 
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: 'green',
+        width: 50,
+        height: 50,
+        marginRight: '20px',
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
+
   return (
     <AppBar
       position="static"
@@ -60,11 +72,15 @@ export default function Header() {
                 >
                   {userData.fullName}
                 </Typography>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://mui.com/static/images/avatar/1.jpg"
-                  sx={{ width: 50, height: 50, marginRight: '20px' }}
-                />
+                {userData.avatarUrl ? (
+                  <Avatar
+                    alt={userData.fullName}
+                    src={userData.avatarUrl}
+                    sx={{ width: 50, height: 50, marginRight: '20px' }}
+                  />
+                ) : (
+                  <Avatar {...stringAvatar(userData.fullName)} />
+                )}
                 <Link to="/add-post" style={{ marginRight: '20px' }}>
                   <Button variant="contained">Написать статью</Button>
                 </Link>

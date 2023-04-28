@@ -34,6 +34,11 @@ export default function AddPostPage() {
           setImageUrl(data.imageUrl);
         })
         .catch(error => console.log(error));
+    } else {
+      setTitle('');
+      setText('');
+      setTags('');
+      setImageUrl('');
     }
   }, [id]);
 

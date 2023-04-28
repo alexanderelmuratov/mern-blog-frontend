@@ -21,7 +21,6 @@ import { fetchRemovePost } from 'redux/slices/posts';
 export default function Post({
   _id,
   title,
-  // text,
   createdAt,
   imageUrl,
   user,
@@ -49,15 +48,37 @@ export default function Post({
     <Card sx={{ maxWidth: '100%', position: 'relative', marginBottom: 2 }}>
       {isEditable && (
         <CardActions
-          sx={{ position: 'absolute', top: 0, right: 0 }}
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+          }}
           disableSpacing
         >
           <Link to={`/posts/${_id}/edit`}>
-            <IconButton aria-label="edit">
+            <IconButton
+              aria-label="edit"
+              sx={{
+                marginRight: 1,
+                backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                '&:hover': {
+                  color: '#fff',
+                },
+              }}
+            >
               <Edit />
             </IconButton>
           </Link>
-          <IconButton onClick={onClickRemove} aria-label="delete">
+          <IconButton
+            onClick={onClickRemove}
+            aria-label="delete"
+            sx={{
+              backgroundColor: 'rgba(255, 255, 255, 0.5)',
+              '&:hover': {
+                color: '#fff',
+              },
+            }}
+          >
             <Delete />
           </IconButton>
         </CardActions>
