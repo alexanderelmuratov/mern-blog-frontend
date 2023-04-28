@@ -34,26 +34,12 @@ export default function RegistrationPage() {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: 3,
-      }}
-    >
+    <Box sx={styles.registerForm}>
       <Paper elevation={12} sx={{ width: '40%', padding: 5 }}>
         <Typography component={'h2'} variant={'h5'} textAlign="center">
           Создание аккаунта
         </Typography>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginTop: '40px',
-          }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} style={styles.registerForm}>
           <TextField
             label="Имя"
             variant="outlined"
@@ -109,3 +95,17 @@ export default function RegistrationPage() {
     </Box>
   );
 }
+
+const styles = {
+  registerWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 3,
+  },
+  registerForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '40px',
+  },
+};

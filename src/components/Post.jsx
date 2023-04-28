@@ -10,8 +10,6 @@ import {
   CardHeader,
   CardMedia,
   IconButton,
-  // List,
-  // ListItem,
   Typography,
 } from '@mui/material';
 import { Comment, Delete, Edit, RemoveRedEye } from '@mui/icons-material';
@@ -25,7 +23,7 @@ export default function Post({
   imageUrl,
   user,
   viewsCount,
-  commentsCount,
+  commentsCount = 0,
   tags,
   isFullPost,
   isLoading,
@@ -45,26 +43,13 @@ export default function Post({
   if (isLoading) return <PostSkeleton />;
 
   return (
-    <Card sx={{ maxWidth: '100%', position: 'relative', marginBottom: 2 }}>
+    <Card sx={styles.postWrapper}>
       {isEditable && (
-        <CardActions
-          sx={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-          }}
-          disableSpacing
-        >
+        <CardActions sx={styles.postActionsWrapper} disableSpacing>
           <Link to={`/posts/${_id}/edit`}>
             <IconButton
               aria-label="edit"
-              sx={{
-                marginRight: 1,
-                backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                '&:hover': {
-                  color: '#fff',
-                },
-              }}
+              sx={{ ...styles.postActionsButton, marginRight: 1 }}
             >
               <Edit />
             </IconButton>
@@ -72,12 +57,7 @@ export default function Post({
           <IconButton
             onClick={onClickRemove}
             aria-label="delete"
-            sx={{
-              backgroundColor: 'rgba(255, 255, 255, 0.5)',
-              '&:hover': {
-                color: '#fff',
-              },
-            }}
+            sx={styles.postActionsButton}
           >
             <Delete />
           </IconButton>
@@ -136,3 +116,23 @@ export default function Post({
     </Card>
   );
 }
+
+const styles = {
+  postWrapper: {
+    maxWidth: '100%',
+    position: 'relative',
+    marginBottom: 2,
+  },
+  postActionsWrapper: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+  postActionsButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+
+    '&:hover': {
+      color: '#fff',
+    },
+  },
+};

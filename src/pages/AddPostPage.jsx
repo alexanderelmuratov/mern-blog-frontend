@@ -108,7 +108,7 @@ export default function AddPostPage() {
   }
 
   return (
-    <Paper sx={{ marginTop: 3, padding: '30px' }}>
+    <Paper sx={styles.addPostWrapper}>
       {!imageUrl && (
         <>
           <Button
@@ -128,20 +128,12 @@ export default function AddPostPage() {
         </>
       )}
       {imageUrl && (
-        <Box
-          sx={{
-            position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 2,
-          }}
-        >
+        <Box sx={styles.imageWrapper}>
           <img src={`http://localhost:4000${imageUrl}`} alt="Uploaded" />
           <Button
             variant="outlined"
             onClick={removeImage}
-            sx={{ position: 'absolute', top: 10, right: 10 }}
+            sx={styles.closeButton}
           >
             <Close />
           </Button>
@@ -159,12 +151,12 @@ export default function AddPostPage() {
         value={tags}
         onChange={e => setTags(e.target.value)}
         variant="outlined"
-        placeholder="Тэги..."
+        placeholder="Теги..."
         fullWidth
         sx={{ marginBottom: 2 }}
       />
       <SimpleMDE value={text} onChange={onChange} options={options} />
-      <Box sx={{ marginTop: 2, display: 'flex', justifyContent: 'flex-end' }}>
+      <Box sx={styles.buttonsWrapper}>
         <Button
           type="submit"
           onClick={handleSubmit}
@@ -181,3 +173,27 @@ export default function AddPostPage() {
     </Paper>
   );
 }
+
+const styles = {
+  addPostWrapper: {
+    marginTop: 3,
+    padding: '30px',
+  },
+  imageWrapper: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 2,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  buttonsWrapper: {
+    marginTop: 2,
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+};

@@ -11,20 +11,6 @@ export default function CommentsBlock() {
       >
         Комментарии
       </Typography>
-      {/* <ul>
-        {tags.map(tag => (
-          <li key={tag} style={{ display: 'flex', alignItems: 'center' }}>
-            <Tag />
-            <Typography
-              variant="h6"
-              color="text.secondary"
-              sx={{ marginLeft: '20px' }}
-            >
-              {tag}
-            </Typography>
-          </li>
-        ))}
-      </ul> */}
     </Card>
   );
 }

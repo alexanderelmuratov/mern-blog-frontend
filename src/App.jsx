@@ -16,7 +16,7 @@ export const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!isAuth) {
+    if (localStorage.getItem('token') && !isAuth) {
       dispatch(fetchAuthMe());
     }
   }, [isAuth, dispatch]);

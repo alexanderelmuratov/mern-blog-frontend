@@ -13,11 +13,13 @@ import {
 
 import { logout } from 'redux/slices/auth';
 
-import defaultLogo from '../images/logo1.svg';
+import defaultLogo from '../images/logo.svg';
 
 export default function Header() {
   const { userData, isAuth } = useSelector(state => state.auth);
   const dispatch = useDispatch();
+
+  console.log(userData);
 
   const logo = defaultLogo;
 
@@ -28,58 +30,34 @@ export default function Header() {
     }
   };
 
-  function stringAvatar(name) {
-    return {
-      sx: {
-        bgcolor: 'green',
-        width: 50,
-        height: 50,
-        marginRight: '20px',
-      },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    };
-  }
+  const stringAvatar = name => ({
+    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+  });
 
   return (
-    <AppBar
-      position="static"
-      sx={{
-        paddingTop: '10px',
-        paddingBottom: '10px',
-        fontSize: 40,
-        color: '#010101',
-        background: '#3f50b5',
-      }}
-    >
+    <AppBar position="static" sx={styles.header}>
       <Toolbar>
-        <Container
-          maxWidth="lg"
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Link to="/" style={{ width: '50px', height: '50px' }}>
+        <Container maxWidth="lg" sx={styles.toolbarContainer}>
+          <Link to="/" style={styles.logoLink}>
             <img src={logo} alt="logo" width={50} />
           </Link>
           <div>
             {isAuth ? (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography
-                  variant="h6"
-                  sx={{ marginRight: '20px', color: '#fff' }}
-                >
+              <Box sx={styles.userInfoWrapper}>
+                <Typography variant="h6" sx={styles.userName}>
                   {userData.fullName}
                 </Typography>
                 {userData.avatarUrl ? (
                   <Avatar
                     alt={userData.fullName}
                     src={userData.avatarUrl}
-                    sx={{ width: 50, height: 50, marginRight: '20px' }}
+                    sx={styles.userAvatar}
                   />
                 ) : (
-                  <Avatar {...stringAvatar(userData.fullName)} />
+                  <Avatar
+                    {...stringAvatar(userData.fullName)}
+                    sx={styles.userAvatar}
+                  />
                 )}
                 <Link to="/add-post" style={{ marginRight: '20px' }}>
                   <Button variant="contained">Написать статью</Button>
@@ -97,14 +75,8 @@ export default function Header() {
             ) : (
               <>
                 <Link to="/login" style={{ marginRight: '20px' }}>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      color: '#fff',
-                      borderColor: '#fff',
-                    }}
-                  >
-                    Войти
+                  <Button variant="outlined" sx={styles.loginButton}>
+                    Вход
                   </Button>
                 </Link>
                 <Link to="/register">
@@ -118,3 +90,40 @@ export default function Header() {
     </AppBar>
   );
 }
+
+const styles = {
+  header: {
+    paddingTop: '10px',
+    paddingBottom: '10px',
+    fontSize: 40,
+    color: '#010101',
+    background: '#3f50b5',
+  },
+  toolbarContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  logoLink: {
+    width: '50px',
+    height: '50px',
+  },
+  userInfoWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  userName: {
+    marginRight: '20px',
+    color: '#fff',
+  },
+  userAvatar: {
+    width: 50,
+    height: 50,
+    marginRight: '20px',
+    bgcolor: 'green',
+  },
+  loginButton: {
+    color: '#fff',
+    borderColor: '#fff',
+  },
+};

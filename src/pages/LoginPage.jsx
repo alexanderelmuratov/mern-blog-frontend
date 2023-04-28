@@ -33,26 +33,12 @@ export default function LoginPage() {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: 3,
-      }}
-    >
+    <Box sx={styles.loginWrapper}>
       <Paper elevation={12} sx={{ width: '40%', padding: 5 }}>
         <Typography component={'h2'} variant={'h5'} textAlign="center">
           Вход в аккаунт
         </Typography>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginTop: '40px',
-          }}
-        >
+        <form onSubmit={handleSubmit(onSubmit)} style={styles.loginForm}>
           <TextField
             label="Email"
             variant="outlined"
@@ -97,3 +83,17 @@ export default function LoginPage() {
     </Box>
   );
 }
+
+const styles = {
+  loginWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 3,
+  },
+  loginForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '40px',
+  },
+};
