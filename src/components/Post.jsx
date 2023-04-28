@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
-  Avatar,
   Box,
   Card,
   CardActions,
@@ -14,6 +13,7 @@ import {
 } from '@mui/material';
 import { Comment, Delete, Edit, RemoveRedEye } from '@mui/icons-material';
 import PostSkeleton from './Skeleton';
+import UserAvatar from './UserAvatar';
 import { fetchRemovePost } from 'redux/slices/posts';
 
 export default function Post({
@@ -21,7 +21,7 @@ export default function Post({
   title,
   createdAt,
   imageUrl,
-  user,
+  author,
   viewsCount,
   commentsCount = 0,
   tags,
@@ -72,8 +72,8 @@ export default function Post({
         />
       )}
       <CardHeader
-        avatar={<Avatar src={user.avatarUrl} aria-label="recipe" />}
-        title={user.fullName}
+        avatar={<UserAvatar user={author} style={{ bgcolor: 'green' }} />}
+        title={author.fullName}
         subheader={formatedDate}
       />
       <CardContent sx={{ paddingTop: 0 }}>

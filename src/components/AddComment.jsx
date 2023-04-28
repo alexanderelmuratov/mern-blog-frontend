@@ -1,24 +1,25 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { Avatar, Button, Card, TextField } from '@mui/material';
+import { Button, Card, TextField } from '@mui/material';
+import UserAvatar from './UserAvatar';
 
 export default function AddComment() {
+  const { userData } = useSelector(state => state.auth);
+
   return (
     <Card sx={styles.commentWrapper}>
-      <Avatar
-        alt="Remy Sharp"
-        src="https://mui.com/static/images/avatar/1.jpg"
-        sx={{ width: 56, height: 56 }}
-      />
+      <UserAvatar user={userData} style={styles.userAvatar} />
       <div style={styles.commentForm}>
         <TextField
-          id="outlined-multiline-flexible"
+          id="standard-textarea"
+          variant="standard"
           label="Написать комментарий"
           multiline
           maxRows={10}
           fullWidth
         />
-        <Button variant="contained" sx={{ marginTop: '20px' }}>
+        <Button variant="contained" size="large" sx={{ marginLeft: 3 }}>
           Отправить
         </Button>
       </div>
@@ -30,14 +31,16 @@ const styles = {
   commentWrapper: {
     padding: 4,
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
   },
+  userAvatar: {
+    width: 56,
+    height: 56,
+    marginRight: 3,
+    bgcolor: 'green',
+  },
   commentForm: {
-    width: '50%',
-    marginTop: '20px',
+    width: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
   },
 };

@@ -33,8 +33,6 @@ export default function FullPostPage() {
     fetchFullPost();
   }, [id]);
 
-  console.log(fullPost);
-
   if (!localStorage.getItem('token') && !isAuth) {
     return <Navigate to="/login" />;
   }
@@ -44,25 +42,32 @@ export default function FullPostPage() {
       {isLoading ? (
         <Post isLoading={isLoading} />
       ) : (
-        <Post
-          _id={fullPost._id}
-          title={fullPost.title}
-          text={fullPost.text}
-          createdAt={fullPost.createdAt}
-          imageUrl={
-            fullPost.imageUrl ? `http://localhost:4000${fullPost.imageUrl}` : ''
-          }
-          user={fullPost.user}
-          viewsCount={fullPost.viewsCount}
-          commentsCount={fullPost.commentsCount}
-          tags={fullPost.tags}
-          isFullPost
-          isEditable
-        >
-          <ReactMarkdown children={fullPost.text} remarkPlugins={[remarkGfm]} />
-        </Post>
+        <>
+          <Post
+            _id={fullPost._id}
+            title={fullPost.title}
+            text={fullPost.text}
+            createdAt={fullPost.createdAt}
+            imageUrl={
+              fullPost.imageUrl
+                ? `http://localhost:4000${fullPost.imageUrl}`
+                : ''
+            }
+            author={fullPost.user}
+            viewsCount={fullPost.viewsCount}
+            commentsCount={fullPost.commentsCount}
+            tags={fullPost.tags}
+            isFullPost
+            isEditable
+          >
+            <ReactMarkdown
+              children={fullPost.text}
+              remarkPlugins={[remarkGfm]}
+            />
+          </Post>
+          <AddComment />
+        </>
       )}
-      <AddComment />
     </Box>
   );
 }

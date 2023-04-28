@@ -6,11 +6,10 @@ import {
   Toolbar,
   Container,
   Button,
-  Avatar,
   Box,
   Typography,
 } from '@mui/material';
-
+import UserAvatar from './UserAvatar';
 import { logout } from 'redux/slices/auth';
 
 import defaultLogo from '../images/logo.svg';
@@ -18,8 +17,6 @@ import defaultLogo from '../images/logo.svg';
 export default function Header() {
   const { userData, isAuth } = useSelector(state => state.auth);
   const dispatch = useDispatch();
-
-  console.log(userData);
 
   const logo = defaultLogo;
 
@@ -30,10 +27,6 @@ export default function Header() {
     }
   };
 
-  const stringAvatar = name => ({
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-  });
-
   return (
     <AppBar position="static" sx={styles.header}>
       <Toolbar>
@@ -41,24 +34,13 @@ export default function Header() {
           <Link to="/" style={styles.logoLink}>
             <img src={logo} alt="logo" width={50} />
           </Link>
-          <div>
+          <Box>
             {isAuth ? (
               <Box sx={styles.userInfoWrapper}>
                 <Typography variant="h6" sx={styles.userName}>
                   {userData.fullName}
                 </Typography>
-                {userData.avatarUrl ? (
-                  <Avatar
-                    alt={userData.fullName}
-                    src={userData.avatarUrl}
-                    sx={styles.userAvatar}
-                  />
-                ) : (
-                  <Avatar
-                    {...stringAvatar(userData.fullName)}
-                    sx={styles.userAvatar}
-                  />
-                )}
+                <UserAvatar user={userData} style={styles.userAvatar} />
                 <Link to="/add-post" style={{ marginRight: '20px' }}>
                   <Button variant="contained">Написать статью</Button>
                 </Link>
@@ -73,7 +55,7 @@ export default function Header() {
                 </Link>
               </Box>
             ) : (
-              <>
+              <Box>
                 <Link to="/login" style={{ marginRight: '20px' }}>
                   <Button variant="outlined" sx={styles.loginButton}>
                     Вход
@@ -82,9 +64,9 @@ export default function Header() {
                 <Link to="/register">
                   <Button variant="contained">Создать аккаунт</Button>
                 </Link>
-              </>
+              </Box>
             )}
-          </div>
+          </Box>
         </Container>
       </Toolbar>
     </AppBar>
