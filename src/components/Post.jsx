@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useConfirm } from 'material-ui-confirm';
 import {
   Box,
   Card,
@@ -29,21 +30,35 @@ export default function Post({
   isLoading,
   isEditable,
   children,
+  onClick,
 }) {
   const dispatch = useDispatch();
+  const confirm = useConfirm();
 
   const formatedDate = new Date(createdAt).toLocaleString();
 
-  const onClickRemove = () => {
-    if (window.confirm('Вы действительно хотите удалить статью?')) {
-      dispatch(fetchRemovePost(_id));
-    }
+  const onClickRemove = async () => {
+    await confirm({
+      title: 'Вы действительно хотите удалить статью?',
+      confirmationText: 'Да',
+      cancellationText: 'Нет',
+    });
+    dispatch(fetchRemovePost(_id));
   };
+
+  // const onClickRemove = () => {
+  //   if (window.confirm('Вы действительно хотите удалить статью?')) {
+  //     dispatch(fetchRemovePost(_id));
+  //   }
+  // };
 
   if (isLoading) return <PostSkeleton />;
 
   return (
-    <Card sx={styles.postWrapper}>
+    <Card
+      sx={{ ...styles.postWrapper, cursor: !isFullPost && 'pointer' }}
+      onClick={!isFullPost ? onClick : undefined}
+    >
       {isEditable && (
         <CardActions sx={styles.postActionsWrapper} disableSpacing>
           <Link to={`/posts/${_id}/edit`}>
@@ -79,13 +94,14 @@ export default function Post({
       <CardContent sx={{ paddingTop: 0 }}>
         <Box sx={{ paddingLeft: '10px' }}>
           <Typography variant="h5" color="text.primary">
-            {isFullPost ? (
+            {title}
+            {/* {isFullPost ? (
               title
             ) : (
               <Link to={`/posts/${_id}`} style={{ color: 'inherit' }}>
                 {title}
               </Link>
-            )}
+            )} */}
           </Typography>
           {children && <Box sx={{ marginTop: 2 }}>{children}</Box>}
         </Box>

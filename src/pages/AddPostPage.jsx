@@ -51,7 +51,7 @@ export default function AddPostPage() {
   const options = useMemo(
     () => ({
       spellChecker: false,
-      minHeight: '400px',
+      minHeight: '350px',
       autofocus: true,
       placeholder: 'Введите текст...',
       status: false,
@@ -177,6 +177,7 @@ export default function AddPostPage() {
 const styles = {
   addPostWrapper: {
     marginTop: 3,
+    marginBottom: 3,
     padding: '30px',
   },
   imageWrapper: {

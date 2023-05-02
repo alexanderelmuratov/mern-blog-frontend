@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Tabs, Tab } from '@mui/material';
 
@@ -9,6 +11,7 @@ import CommentsBlock from '../components/CommentsBlock';
 import { fetchPosts, fetchTags } from '../redux/slices/posts';
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const { posts, tags } = useSelector(state => state.posts);
   const userData = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
@@ -29,11 +32,16 @@ export default function HomePage() {
         <Tab label="Популярные"></Tab>
       </Tabs>
       <Grid container spacing={4}>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={8}>
           {(posts.isLoading ? [...Array(5)] : posts.items).map((post, index) =>
             posts.isLoading ? (
               <Post key={index} isLoading={true} />
             ) : (
+              // <Link
+              //   key={index}
+              //   to={`/posts/${post._id}`}
+              //   style={{ color: 'inherit' }}
+              // >
               <Post
                 key={index}
                 _id={post._id}
@@ -47,13 +55,17 @@ export default function HomePage() {
                 commentsCount={post.commentsCount}
                 tags={post.tags}
                 isEditable={userData?._id === post.user._id}
+                onClick={() => navigate(`/posts/${post._id}`)}
               />
+              // </Link>
             )
           )}
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={0} md={4}>
+          {/* <Box position="fixed"> */}
           <TagsBlock tags={tags.items} isLoading={tags.isLoading} />
           <CommentsBlock />
+          {/* </Box> */}
         </Grid>
       </Grid>
     </>

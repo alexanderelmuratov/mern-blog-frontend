@@ -89,6 +89,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: 3,
+    marginBottom: 3,
   },
   loginForm: {
     display: 'flex',

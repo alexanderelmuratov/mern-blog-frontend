@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useConfirm } from 'material-ui-confirm';
 import {
   AppBar,
   Toolbar,
@@ -17,15 +18,26 @@ import defaultLogo from '../images/logo.svg';
 export default function Header() {
   const { userData, isAuth } = useSelector(state => state.auth);
   const dispatch = useDispatch();
+  const confirm = useConfirm();
 
   const logo = defaultLogo;
 
-  const onClickLogout = () => {
-    if (window.confirm('Вы действительно хотите выйти?')) {
-      dispatch(logout());
-      localStorage.removeItem('token');
-    }
+  const onClickLogout = async () => {
+    await confirm({
+      title: 'Вы действительно хотите выйти?',
+      confirmationText: 'Да',
+      cancellationText: 'Нет',
+    });
+    dispatch(logout());
+    localStorage.removeItem('token');
   };
+
+  // const onClickLogout = () => {
+  //   if (window.confirm('Вы действительно хотите выйти?')) {
+  //     dispatch(logout());
+  //     localStorage.removeItem('token');
+  //   }
+  // };
 
   return (
     <AppBar position="static" sx={styles.header}>

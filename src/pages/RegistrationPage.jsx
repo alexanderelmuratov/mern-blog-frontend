@@ -34,7 +34,7 @@ export default function RegistrationPage() {
   }
 
   return (
-    <Box sx={styles.registerForm}>
+    <Box sx={styles.registerWrapper}>
       <Paper elevation={12} sx={{ width: '40%', padding: 5 }}>
         <Typography component={'h2'} variant={'h5'} textAlign="center">
           Создание аккаунта
@@ -101,6 +101,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     marginTop: 3,
+    marginBottom: 3,
   },
   registerForm: {
     display: 'flex',

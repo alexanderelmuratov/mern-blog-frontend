@@ -14,7 +14,7 @@ export default function FullPostPage() {
   const [fullPost, setFullPost] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const isAuth = useSelector(state => state.auth.isAuth);
+  const { userData, isAuth } = useSelector(state => state.auth);
 
   const { id } = useParams();
 
@@ -38,7 +38,7 @@ export default function FullPostPage() {
   }
 
   return (
-    <Box sx={{ marginTop: 3 }}>
+    <Box sx={{ marginTop: 3, marginBottom: 3 }}>
       {isLoading ? (
         <Post isLoading={isLoading} />
       ) : (
@@ -58,7 +58,7 @@ export default function FullPostPage() {
             commentsCount={fullPost.commentsCount}
             tags={fullPost.tags}
             isFullPost
-            isEditable
+            isEditable={userData?._id === fullPost.user._id}
           >
             <ReactMarkdown
               children={fullPost.text}
