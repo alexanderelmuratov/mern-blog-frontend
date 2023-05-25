@@ -6,14 +6,7 @@ import { Fab, Tooltip } from '@mui/material';
 export default function AddPostButton() {
   return (
     <Link to="/add-post">
-      <Tooltip
-        title="Написать статью"
-        sx={{
-          position: 'fixed',
-          bottom: 70,
-          left: { xs: 'calc(50% - 25px)', md: 30 },
-        }}
-      >
+      <Tooltip title="Написать статью" sx={styles.button}>
         <Fab color="primary" aria-label="add">
           <Add />
         </Fab>
@@ -21,3 +14,11 @@ export default function AddPostButton() {
     </Link>
   );
 }
+
+const styles = {
+  button: {
+    position: 'fixed',
+    bottom: 70,
+    left: { xs: 'calc(50% - 25px)', md: 30 },
+  },
+};

@@ -36,11 +36,7 @@ export default function Header() {
   };
 
   return (
-    <AppBar
-      // position="static"
-      position="fixed"
-      sx={styles.header}
-    >
+    <AppBar position="fixed" sx={styles.header}>
       <Toolbar>
         <Container maxWidth="lg" sx={styles.toolbarContainer}>
           <Link to="/" style={styles.logoLink}>
@@ -85,7 +81,6 @@ const styles = {
   header: {
     paddingTop: '10px',
     paddingBottom: '10px',
-    // marginBottom: '84px',
     fontSize: 40,
     color: '#010101',
     background: '#3f50b5',

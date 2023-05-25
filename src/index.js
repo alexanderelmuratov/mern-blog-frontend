@@ -8,14 +8,12 @@ import store from './redux/store';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <>
+  <React.StrictMode>
     <CssBaseline />
     <BrowserRouter basename="/mern-blog-frontend">
       <Provider store={store}>
         <App />
       </Provider>
     </BrowserRouter>
-  </>
+  </React.StrictMode>
 );
-
-// React.StrictMode
