@@ -20,7 +20,7 @@ export default function SwitchMode({ mode, setMode }) {
 const styles = {
   switchModeWrapper: {
     position: 'fixed',
-    top: 90,
+    top: 100,
     left: { xs: 'calc(80%)', md: 30 },
     display: 'flex',
     justifyContent: 'center',

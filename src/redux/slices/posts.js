@@ -3,9 +3,12 @@ import axios from '../../axios';
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async thunkAPI => {
+  async (activeTab, thunkAPI) => {
     try {
-      const { data } = await axios.get('/posts');
+      const { data } =
+        activeTab === 0
+          ? await axios.get('/posts/new')
+          : await axios.get('/posts/popular');
       return data;
     } catch (error) {
       console.log(error);

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Tabs, Tab, Box } from '@mui/material';
@@ -11,25 +11,33 @@ import AddPostButton from '../components/AddPostButton';
 import { fetchPosts, fetchTags } from '../redux/slices/posts';
 
 export default function HomePage() {
+  const [activeTab, setActiveTab] = useState(0);
+
   const navigate = useNavigate();
+
   const { posts, tags } = useSelector(state => state.posts);
   const userData = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchPosts(activeTab));
     dispatch(fetchTags());
-  }, [dispatch]);
+  }, [dispatch, activeTab]);
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
 
   return (
     <Box sx={{ position: 'relative' }}>
       <Tabs
+        value={activeTab}
+        onChange={handleTabChange}
         style={{ marginBottom: 20 }}
-        value={0}
         aria-label="basic tabs example"
       >
-        <Tab label="Новые"></Tab>
-        <Tab label="Популярные"></Tab>
+        <Tab label="Новые" />
+        <Tab label="Популярные" />
       </Tabs>
       <Grid container spacing={4}>
         <Grid item xs={12} md={8}>

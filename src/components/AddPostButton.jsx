@@ -20,5 +20,6 @@ const styles = {
     position: 'fixed',
     bottom: 70,
     left: { xs: 'calc(50% - 25px)', md: 30 },
+    zIndex: 1,
   },
 };

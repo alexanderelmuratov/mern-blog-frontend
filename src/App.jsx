@@ -7,6 +7,7 @@ import { Box, Container, ThemeProvider, createTheme } from '@mui/material';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SwitchMode from './components/SwitchMode';
+import ScrollTopButton from './components/ScrollTopButton';
 import HomePage from './pages/HomePage';
 import FullPostPage from './pages/FullPostPage';
 import AddPostPage from './pages/AddPostPage';
@@ -54,6 +55,7 @@ export const App = () => {
             </Routes>
           </Container>
           <Footer />
+          <ScrollTopButton />
           <ScrollToTop />
         </Box>
       </ConfirmProvider>

@@ -1,5 +1,11 @@
 import React from 'react';
-import { Card, Typography } from '@mui/material';
+import {
+  Card,
+  List,
+  ListItem,
+  ListItemButton,
+  Typography,
+} from '@mui/material';
 import { Tag } from '@mui/icons-material';
 
 export default function TagsBlock({ tags, isLoading }) {
@@ -8,24 +14,30 @@ export default function TagsBlock({ tags, isLoading }) {
       <Typography
         variant="h5"
         color="text.primary"
-        sx={{ textAlign: 'center', marginBottom: 1 }}
+        sx={{ textAlign: 'center' }}
       >
         Теги
       </Typography>
-      <ul>
+      <List sx={{ padding: 2 }}>
         {tags.map(tag => (
-          <li key={tag} style={{ display: 'flex', alignItems: 'center' }}>
-            <Tag />
-            <Typography
-              variant="h6"
-              color="text.secondary"
-              sx={{ marginLeft: '20px' }}
-            >
-              {tag}
-            </Typography>
-          </li>
+          <ListItem
+            key={tag}
+            sx={{ display: 'flex', alignItems: 'center' }}
+            disablePadding
+          >
+            <ListItemButton sx={{ padding: 0 }}>
+              <Tag />
+              <Typography
+                variant="h6"
+                color="text.secondary"
+                sx={{ marginLeft: '20px' }}
+              >
+                {tag}
+              </Typography>
+            </ListItemButton>
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </Card>
   );
 }
