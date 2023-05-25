@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import Post from 'components/Post';
 import AddComment from 'components/AddComment';
 
@@ -39,37 +39,39 @@ export default function FullPostPage() {
   }
 
   return (
-    <Box sx={{ marginTop: 3, marginBottom: 3 }}>
-      {isLoading ? (
-        <Post isLoading={isLoading} />
-      ) : (
-        <>
-          <Post
-            _id={fullPost._id}
-            title={fullPost.title}
-            text={fullPost.text}
-            createdAt={fullPost.createdAt}
-            imageUrl={
-              fullPost.imageUrl
-                ? `http://localhost:4000${fullPost.imageUrl}`
-                : ''
-            }
-            author={fullPost.user}
-            viewsCount={fullPost.viewsCount}
-            commentsCount={fullPost.commentsCount}
-            tags={fullPost.tags}
-            isFullPost
-            isEditable={userData?._id === fullPost.user._id}
-          >
-            <ReactMarkdown
-              children={fullPost.text}
-              remarkPlugins={[remarkGfm]}
-            />
-          </Post>
-          <AddComment />
-        </>
-      )}
-      <AddPostButton />
-    </Box>
+    <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
+      <Box sx={{ marginTop: 3, marginBottom: 3 }}>
+        {isLoading ? (
+          <Post isLoading={isLoading} />
+        ) : (
+          <>
+            <Post
+              _id={fullPost._id}
+              title={fullPost.title}
+              text={fullPost.text}
+              createdAt={fullPost.createdAt}
+              imageUrl={
+                fullPost.imageUrl
+                  ? `http://localhost:4000${fullPost.imageUrl}`
+                  : ''
+              }
+              author={fullPost.user}
+              viewsCount={fullPost.viewsCount}
+              commentsCount={fullPost.commentsCount}
+              tags={fullPost.tags}
+              isFullPost
+              isEditable={userData?._id === fullPost.user._id}
+            >
+              <ReactMarkdown
+                children={fullPost.text}
+                remarkPlugins={[remarkGfm]}
+              />
+            </Post>
+            <AddComment />
+          </>
+        )}
+        <AddPostButton />
+      </Box>
+    </Container>
   );
 }

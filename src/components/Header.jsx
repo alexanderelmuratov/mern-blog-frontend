@@ -39,7 +39,7 @@ export default function Header() {
     <AppBar position="fixed" sx={styles.header}>
       <Toolbar>
         <Container maxWidth="lg" sx={styles.toolbarContainer}>
-          <Link to="/" style={styles.logoLink}>
+          <Link to={isAuth ? '/posts' : '/'} style={styles.logoLink}>
             <img src={logo} alt="logo" width={50} />
           </Link>
           <Box>

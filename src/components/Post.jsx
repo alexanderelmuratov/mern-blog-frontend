@@ -118,13 +118,15 @@ export default function Post({
         <ul style={{ display: 'flex', padding: '10px' }}>
           {tags.map(tag => (
             <li key={tag} style={{ marginRight: '10px' }}>
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                fontStyle="italic"
-              >
-                #{tag}
-              </Typography>
+              {tag && (
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  fontStyle="italic"
+                >
+                  #{tag}
+                </Typography>
+              )}
             </li>
           ))}
         </ul>

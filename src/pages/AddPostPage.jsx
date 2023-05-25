@@ -1,7 +1,14 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Button, IconButton, Paper, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Paper,
+  TextField,
+} from '@mui/material';
 import { Close } from '@mui/icons-material';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
@@ -108,69 +115,71 @@ export default function AddPostPage() {
   }
 
   return (
-    <Paper sx={styles.addPostWrapper}>
-      {!imageUrl && (
-        <>
+    <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
+      <Paper sx={styles.addPostWrapper}>
+        {!imageUrl && (
+          <>
+            <Button
+              onClick={() => inputFileRef.current.click()}
+              variant="outlined"
+              size="large"
+              sx={{ marginBottom: 2 }}
+            >
+              Загрузить превью
+            </Button>
+            <input
+              ref={inputFileRef}
+              type="file"
+              onChange={handleChangeFile}
+              hidden
+            />
+          </>
+        )}
+        {imageUrl && (
+          <Box sx={styles.imageWrapper}>
+            <img src={`http://localhost:4000${imageUrl}`} alt="Uploaded" />
+            <IconButton
+              aria-label="close"
+              onClick={removeImage}
+              sx={styles.closeButton}
+            >
+              <Close fontSize="large" />
+            </IconButton>
+          </Box>
+        )}
+        <TextField
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          variant="standard"
+          placeholder="Заголовок статьи..."
+          fullWidth
+          sx={{ marginBottom: 2 }}
+        />
+        <TextField
+          value={tags}
+          onChange={e => setTags(e.target.value)}
+          variant="outlined"
+          placeholder="Теги..."
+          fullWidth
+          sx={{ marginBottom: 2 }}
+        />
+        <SimpleMDE value={text} onChange={onChange} options={options} />
+        <Box sx={styles.buttonsWrapper}>
           <Button
-            onClick={() => inputFileRef.current.click()}
-            variant="outlined"
+            type="submit"
+            onClick={handleSubmit}
+            variant="contained"
             size="large"
-            sx={{ marginBottom: 2 }}
+            sx={{ marginRight: 2 }}
           >
-            Загрузить превью
+            {id ? 'Сохранить' : 'Опубликовать'}
           </Button>
-          <input
-            ref={inputFileRef}
-            type="file"
-            onChange={handleChangeFile}
-            hidden
-          />
-        </>
-      )}
-      {imageUrl && (
-        <Box sx={styles.imageWrapper}>
-          <img src={`http://localhost:4000${imageUrl}`} alt="Uploaded" />
-          <IconButton
-            aria-label="close"
-            onClick={removeImage}
-            sx={styles.closeButton}
-          >
-            <Close fontSize="large" />
-          </IconButton>
+          <Button onClick={() => navigate(-1)} variant="outlined" size="large">
+            Отмена
+          </Button>
         </Box>
-      )}
-      <TextField
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        variant="standard"
-        placeholder="Заголовок статьи..."
-        fullWidth
-        sx={{ marginBottom: 2 }}
-      />
-      <TextField
-        value={tags}
-        onChange={e => setTags(e.target.value)}
-        variant="outlined"
-        placeholder="Теги..."
-        fullWidth
-        sx={{ marginBottom: 2 }}
-      />
-      <SimpleMDE value={text} onChange={onChange} options={options} />
-      <Box sx={styles.buttonsWrapper}>
-        <Button
-          type="submit"
-          onClick={handleSubmit}
-          variant="contained"
-          size="large"
-          sx={{ marginRight: 2 }}
-        >
-          {id ? 'Сохранить' : 'Опубликовать'}
-        </Button>
-        <Button onClick={() => navigate(-1)} variant="outlined" size="large">
-          Отмена
-        </Button>
-      </Box>
-    </Paper>
+      </Paper>
+    </Container>
   );
 }
 

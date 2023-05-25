@@ -5,11 +5,18 @@ export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   async (activeTab, thunkAPI) => {
     try {
-      const { data } =
-        activeTab === 0
-          ? await axios.get('/posts/new')
-          : await axios.get('/posts/popular');
-      return data;
+      if (activeTab === 0) {
+        const { data } = await axios.get('/posts/new');
+        return data;
+      }
+      if (activeTab === 1) {
+        const { data } = await axios.get('/posts/popular');
+        return data;
+      }
+      if (activeTab === 2) {
+        const { data } = await axios.get('/posts/own');
+        return data;
+      }
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue();

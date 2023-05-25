@@ -2,7 +2,14 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Box, Button, Paper, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { login } from 'redux/slices/auth';
 
 export default function LoginPage() {
@@ -28,59 +35,61 @@ export default function LoginPage() {
     }
   };
 
-  if (isAuth) {
-    return <Navigate to="/" />;
+  if (localStorage.getItem('token') && isAuth) {
+    return <Navigate to="/posts" />;
   }
 
   return (
-    <Box sx={styles.loginWrapper}>
-      <Paper elevation={12} sx={{ width: '40%', padding: 5 }}>
-        <Typography component={'h2'} variant={'h5'} textAlign="center">
-          Вход в аккаунт
-        </Typography>
-        <form onSubmit={handleSubmit(onSubmit)} style={styles.loginForm}>
-          <TextField
-            label="Email"
-            variant="outlined"
-            {...register('email', {
-              required: 'Укажите почту',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Неверный формат почты',
-              },
-            })}
-            error={Boolean(formState.errors.email?.message)}
-            helperText={formState.errors.email?.message}
-            fullWidth
-            sx={{ width: '70%', marginBottom: 5 }}
-          />
-          <TextField
-            label="Пароль"
-            variant="outlined"
-            {...register('password', {
-              required: 'Введите пароль',
-              minLength: {
-                value: 5,
-                message: 'Введите не менее 5 символов',
-              },
-            })}
-            error={Boolean(formState.errors.password?.message)}
-            helperText={formState.errors.password?.message}
-            fullWidth
-            sx={{ width: '70%', marginBottom: 5 }}
-          />
-          <Button
-            type="submit"
-            size="large"
-            variant="contained"
-            disabled={!formState.isValid}
-            sx={{ width: '50%' }}
-          >
-            Войти
-          </Button>
-        </form>
-      </Paper>
-    </Box>
+    <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
+      <Box sx={styles.loginWrapper}>
+        <Paper elevation={12} sx={{ width: '40%', padding: 5 }}>
+          <Typography component={'h2'} variant={'h5'} textAlign="center">
+            Вход в аккаунт
+          </Typography>
+          <form onSubmit={handleSubmit(onSubmit)} style={styles.loginForm}>
+            <TextField
+              label="Email"
+              variant="outlined"
+              {...register('email', {
+                required: 'Укажите почту',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Неверный формат почты',
+                },
+              })}
+              error={Boolean(formState.errors.email?.message)}
+              helperText={formState.errors.email?.message}
+              fullWidth
+              sx={{ width: '70%', marginBottom: 5 }}
+            />
+            <TextField
+              label="Пароль"
+              variant="outlined"
+              {...register('password', {
+                required: 'Введите пароль',
+                minLength: {
+                  value: 5,
+                  message: 'Введите не менее 5 символов',
+                },
+              })}
+              error={Boolean(formState.errors.password?.message)}
+              helperText={formState.errors.password?.message}
+              fullWidth
+              sx={{ width: '70%', marginBottom: 5 }}
+            />
+            <Button
+              type="submit"
+              size="large"
+              variant="contained"
+              disabled={!formState.isValid}
+              sx={{ width: '50%' }}
+            >
+              Войти
+            </Button>
+          </form>
+        </Paper>
+      </Box>
+    </Container>
   );
 }
 
