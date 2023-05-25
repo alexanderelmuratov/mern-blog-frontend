@@ -23,6 +23,7 @@ export default function Footer() {
 
 // ========== СТИЛИ ==========
 const StyledFooter = styled.footer`
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -35,7 +35,7 @@ export const App = () => {
         }}
       >
         <Header />
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/posts/:id" element={<FullPostPage />} />

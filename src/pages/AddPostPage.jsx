@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Button, Paper, TextField } from '@mui/material';
+import { Box, Button, IconButton, Paper, TextField } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import SimpleMDE from 'react-simplemde-editor';
 import 'easymde/dist/easymde.min.css';
@@ -130,13 +130,20 @@ export default function AddPostPage() {
       {imageUrl && (
         <Box sx={styles.imageWrapper}>
           <img src={`http://localhost:4000${imageUrl}`} alt="Uploaded" />
-          <Button
+          {/* <Button
             variant="outlined"
             onClick={removeImage}
             sx={styles.closeButton}
           >
             <Close />
-          </Button>
+          </Button> */}
+          <IconButton
+            aria-label="close"
+            onClick={removeImage}
+            sx={styles.closeButton}
+          >
+            <Close fontSize="large" />
+          </IconButton>
         </Box>
       )}
       <TextField
@@ -166,7 +173,7 @@ export default function AddPostPage() {
         >
           {id ? 'Сохранить' : 'Опубликовать'}
         </Button>
-        <Button variant="outlined" size="large">
+        <Button onClick={() => navigate(-1)} variant="outlined" size="large">
           Отмена
         </Button>
       </Box>
@@ -191,6 +198,11 @@ const styles = {
     position: 'absolute',
     top: 10,
     right: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+
+    '&:hover': {
+      color: '#fff',
+    },
   },
   buttonsWrapper: {
     marginTop: 2,

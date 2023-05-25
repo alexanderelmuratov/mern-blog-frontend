@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useConfirm } from 'material-ui-confirm';
 import {
@@ -10,12 +10,14 @@ import {
   Box,
   Typography,
 } from '@mui/material';
+import { Logout } from '@mui/icons-material';
 import UserAvatar from './UserAvatar';
 import { logout } from 'redux/slices/auth';
 
 import defaultLogo from '../images/logo.svg';
 
 export default function Header() {
+  const navigate = useNavigate();
   const { userData, isAuth } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const confirm = useConfirm();
@@ -30,17 +32,15 @@ export default function Header() {
     });
     dispatch(logout());
     localStorage.removeItem('token');
+    navigate('/login');
   };
 
-  // const onClickLogout = () => {
-  //   if (window.confirm('Вы действительно хотите выйти?')) {
-  //     dispatch(logout());
-  //     localStorage.removeItem('token');
-  //   }
-  // };
-
   return (
-    <AppBar position="static" sx={styles.header}>
+    <AppBar
+      // position="static"
+      position="fixed"
+      sx={styles.header}
+    >
       <Toolbar>
         <Container maxWidth="lg" sx={styles.toolbarContainer}>
           <Link to="/" style={styles.logoLink}>
@@ -53,18 +53,14 @@ export default function Header() {
                   {userData.fullName}
                 </Typography>
                 <UserAvatar user={userData} style={styles.userAvatar} />
-                <Link to="/add-post" style={{ marginRight: '20px' }}>
-                  <Button variant="contained">Написать статью</Button>
-                </Link>
-                <Link to="/login">
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={onClickLogout}
-                  >
-                    Выйти
-                  </Button>
-                </Link>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={onClickLogout}
+                  sx={{ borderRadius: '50px' }}
+                >
+                  <Logout />
+                </Button>
               </Box>
             ) : (
               <Box>
@@ -89,6 +85,7 @@ const styles = {
   header: {
     paddingTop: '10px',
     paddingBottom: '10px',
+    // marginBottom: '84px',
     fontSize: 40,
     color: '#010101',
     background: '#3f50b5',

@@ -9,6 +9,7 @@ import Post from 'components/Post';
 import AddComment from 'components/AddComment';
 
 import axios from '../axios';
+import AddPostButton from '../components/AddPostButton';
 
 export default function FullPostPage() {
   const [fullPost, setFullPost] = useState(null);
@@ -68,6 +69,7 @@ export default function FullPostPage() {
           <AddComment />
         </>
       )}
+      <AddPostButton />
     </Box>
   );
 }

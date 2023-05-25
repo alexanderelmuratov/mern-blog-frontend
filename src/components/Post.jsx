@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useConfirm } from 'material-ui-confirm';
 import {
@@ -12,7 +12,13 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { Comment, Delete, Edit, RemoveRedEye } from '@mui/icons-material';
+import {
+  ArrowBack,
+  Comment,
+  Delete,
+  Edit,
+  RemoveRedEye,
+} from '@mui/icons-material';
 import PostSkeleton from './Skeleton';
 import UserAvatar from './UserAvatar';
 import { fetchRemovePost } from 'redux/slices/posts';
@@ -32,6 +38,7 @@ export default function Post({
   children,
   onClick,
 }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const confirm = useConfirm();
 
@@ -46,12 +53,6 @@ export default function Post({
     dispatch(fetchRemovePost(_id));
   };
 
-  // const onClickRemove = () => {
-  //   if (window.confirm('Вы действительно хотите удалить статью?')) {
-  //     dispatch(fetchRemovePost(_id));
-  //   }
-  // };
-
   if (isLoading) return <PostSkeleton />;
 
   return (
@@ -59,24 +60,40 @@ export default function Post({
       sx={{ ...styles.postWrapper, cursor: !isFullPost && 'pointer' }}
       onClick={!isFullPost ? onClick : undefined}
     >
-      {isEditable && (
-        <CardActions sx={styles.postActionsWrapper} disableSpacing>
-          <Link to={`/posts/${_id}/edit`}>
+      {isFullPost && (
+        <>
+          <CardActions sx={styles.postActionsWrapper} disableSpacing>
             <IconButton
-              aria-label="edit"
-              sx={{ ...styles.postActionsButton, marginRight: 1 }}
+              onClick={() => navigate(-1)}
+              aria-label="go-back"
+              sx={styles.postActionsButton}
             >
-              <Edit />
+              <ArrowBack fontSize="large" />
             </IconButton>
-          </Link>
-          <IconButton
-            onClick={onClickRemove}
-            aria-label="delete"
-            sx={styles.postActionsButton}
-          >
-            <Delete />
-          </IconButton>
-        </CardActions>
+          </CardActions>
+          {isEditable && (
+            <CardActions
+              sx={{ ...styles.postActionsWrapper, right: 0 }}
+              disableSpacing
+            >
+              <Link to={`/posts/${_id}/edit`}>
+                <IconButton
+                  aria-label="edit"
+                  sx={{ ...styles.postActionsButton, marginRight: 1 }}
+                >
+                  <Edit fontSize="large" />
+                </IconButton>
+              </Link>
+              <IconButton
+                onClick={onClickRemove}
+                aria-label="delete"
+                sx={styles.postActionsButton}
+              >
+                <Delete fontSize="large" />
+              </IconButton>
+            </CardActions>
+          )}
+        </>
       )}
       {imageUrl && (
         <CardMedia
@@ -95,13 +112,6 @@ export default function Post({
         <Box sx={{ paddingLeft: '10px' }}>
           <Typography variant="h5" color="text.primary">
             {title}
-            {/* {isFullPost ? (
-              title
-            ) : (
-              <Link to={`/posts/${_id}`} style={{ color: 'inherit' }}>
-                {title}
-              </Link>
-            )} */}
           </Typography>
           {children && <Box sx={{ marginTop: 2 }}>{children}</Box>}
         </Box>
@@ -142,7 +152,6 @@ const styles = {
   postActionsWrapper: {
     position: 'absolute',
     top: 0,
-    right: 0,
   },
   postActionsButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
