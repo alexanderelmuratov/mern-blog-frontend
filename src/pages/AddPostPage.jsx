@@ -138,7 +138,7 @@ export default function AddPostPage() {
         {imageUrl && (
           <Box sx={styles.imageWrapper}>
             <img
-              src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
+              src={`https://mern-blog-backend.herokuapp.com${imageUrl}`}
               alt="Uploaded"
             />
             <IconButton

@@ -84,7 +84,7 @@ export default function PostsPage() {
                     createdAt={post.createdAt}
                     imageUrl={
                       post.imageUrl
-                        ? `${process.env.REACT_APP_API_URL}${post.imageUrl}`
+                        ? `https://mern-blog-backend.herokuapp.com${post.imageUrl}`
                         : ''
                     }
                     author={post.user}

@@ -52,7 +52,7 @@ export default function FullPostPage() {
               createdAt={fullPost.createdAt}
               imageUrl={
                 fullPost.imageUrl
-                  ? `${process.env.REACT_APP_API_URL}${fullPost.imageUrl}`
+                  ? `https://mern-blog-backend.herokuapp.com${fullPost.imageUrl}`
                   : ''
               }
               author={fullPost.user}
