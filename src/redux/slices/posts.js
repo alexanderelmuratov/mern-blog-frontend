@@ -24,6 +24,19 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
+export const fetchPostsByTag = createAsyncThunk(
+  'posts/fetchPostsByTag',
+  async (value, thunkAPI) => {
+    try {
+      const { data } = await axios.get(`/posts?tag=${value}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 export const fetchTags = createAsyncThunk('tags/fetchTags', async thunkAPI => {
   try {
     const { data } = await axios.get('/tags');
@@ -72,6 +85,19 @@ const postsSlice = createSlice({
       state.posts.isLoading = false;
     },
     [fetchPosts.rejected]: state => {
+      state.posts.items = [];
+      state.posts.isLoading = false;
+    },
+    // Получение статей по тегу
+    [fetchPostsByTag.pending]: state => {
+      state.posts.items = [];
+      state.posts.isLoading = true;
+    },
+    [fetchPostsByTag.fulfilled]: (state, action) => {
+      state.posts.items = action.payload;
+      state.posts.isLoading = false;
+    },
+    [fetchPostsByTag.rejected]: state => {
       state.posts.items = [];
       state.posts.isLoading = false;
     },

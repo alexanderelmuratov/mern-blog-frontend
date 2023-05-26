@@ -1,31 +1,44 @@
 import { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Grid, Tabs, Tab, Box, Container } from '@mui/material';
+import { Grid, Tabs, Tab, Box, Container, Typography } from '@mui/material';
+import { Tag } from '@mui/icons-material';
 
 import Post from '../components/Post';
 import TagsBlock from '../components/TagsBlock';
 import CommentsBlock from '../components/CommentsBlock';
 import AddPostButton from '../components/AddPostButton';
 
-import { fetchPosts, fetchTags } from '../redux/slices/posts';
+import { fetchPosts, fetchPostsByTag, fetchTags } from '../redux/slices/posts';
 
 export default function PostsPage() {
   const [activeTab, setActiveTab] = useState(0);
 
+  const [searchParams, setSearchParams] = useSearchParams({});
   const navigate = useNavigate();
 
   const { posts, tags } = useSelector(state => state.posts);
   const { userData, isAuth } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
+  const tagQuerry = searchParams.get('tag') || '';
+
   useEffect(() => {
-    dispatch(fetchPosts(activeTab));
+    if (!tagQuerry) dispatch(fetchPosts(activeTab));
     dispatch(fetchTags());
-  }, [dispatch, activeTab]);
+  }, [dispatch, activeTab, tagQuerry]);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
+  };
+
+  const handleTagSubmit = value => {
+    dispatch(fetchPostsByTag(value));
+    if (value) {
+      setSearchParams({ tag: value });
+    } else {
+      setSearchParams({});
+    }
   };
 
   if (!localStorage.getItem('token') && !isAuth) {
@@ -35,16 +48,28 @@ export default function PostsPage() {
   return (
     <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
       <Box sx={{ position: 'relative' }}>
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          style={{ marginBottom: 20 }}
-          aria-label="basic tabs example"
-        >
-          <Tab label="Новые" />
-          <Tab label="Популярные" />
-          <Tab label="Личные" />
-        </Tabs>
+        {tagQuerry ? (
+          <Box sx={styles.tagQuerryWrapper}>
+            <Typography variant="h5" color="text.primary">
+              Статьти с тегом:
+            </Typography>
+            <Tag color="error" sx={{ marginLeft: 2 }} />
+            <Typography variant="h5" color="primary">
+              {tagQuerry}
+            </Typography>
+          </Box>
+        ) : (
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            style={{ marginBottom: 16 }}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Новые" />
+            <Tab label="Популярные" />
+            <Tab label="Личные" />
+          </Tabs>
+        )}
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
             {(posts.isLoading ? [...Array(5)] : posts.items).map(
@@ -74,7 +99,11 @@ export default function PostsPage() {
           </Grid>
           <Grid item xs={0} md={4}>
             <Box position="fixed">
-              <TagsBlock tags={tags.items} isLoading={tags.isLoading} />
+              <TagsBlock
+                tags={tags.items}
+                isLoading={tags.isLoading}
+                onTagSubmit={handleTagSubmit}
+              />
               <CommentsBlock />
             </Box>
           </Grid>
@@ -84,3 +113,13 @@ export default function PostsPage() {
     </Container>
   );
 }
+
+const styles = {
+  tagQuerryWrapper: {
+    display: 'flex',
+    justifyContent: 'start',
+    alignItems: 'center',
+    paddingTop: 2,
+    paddingBottom: 2,
+  },
+};

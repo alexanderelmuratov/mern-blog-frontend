@@ -32,7 +32,7 @@ export default function Header() {
     });
     dispatch(logout());
     localStorage.removeItem('token');
-    navigate('/login');
+    navigate('/');
   };
 
   return (

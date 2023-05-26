@@ -18,7 +18,7 @@ export default function CommentsBlock() {
         color="text.primary"
         sx={{ textAlign: 'center', marginBottom: 1 }}
       >
-        Комментарии
+        Последние комментарии
       </Typography>
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         <ListItem key={1} alignItems="flex-start">
