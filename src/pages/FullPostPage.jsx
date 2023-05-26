@@ -52,7 +52,7 @@ export default function FullPostPage() {
               createdAt={fullPost.createdAt}
               imageUrl={
                 fullPost.imageUrl
-                  ? `http://localhost:4000${fullPost.imageUrl}`
+                  ? `${process.env.REACT_APP_API_URL}${fullPost.imageUrl}`
                   : ''
               }
               author={fullPost.user}

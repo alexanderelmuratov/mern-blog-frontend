@@ -137,7 +137,10 @@ export default function AddPostPage() {
         )}
         {imageUrl && (
           <Box sx={styles.imageWrapper}>
-            <img src={`http://localhost:4000${imageUrl}`} alt="Uploaded" />
+            <img
+              src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
+              alt="Uploaded"
+            />
             <IconButton
               aria-label="close"
               onClick={removeImage}

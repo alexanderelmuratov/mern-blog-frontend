@@ -84,7 +84,7 @@ export default function PostsPage() {
                     createdAt={post.createdAt}
                     imageUrl={
                       post.imageUrl
-                        ? `http://localhost:4000${post.imageUrl}`
+                        ? `${process.env.REACT_APP_API_URL}${post.imageUrl}`
                         : ''
                     }
                     author={post.user}
