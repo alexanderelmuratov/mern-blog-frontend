@@ -98,7 +98,7 @@ export default function PostsPage() {
             )}
           </Grid>
           <Grid item xs={0} md={4}>
-            <Box position="fixed">
+            <Box position="fixed" sx={{ marginRight: '24px' }}>
               <TagsBlock
                 tags={tags.items}
                 isLoading={tags.isLoading}

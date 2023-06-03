@@ -22,7 +22,7 @@ const styles = {
     zIndex: 1,
     position: 'fixed',
     top: 100,
-    left: { xs: 'calc(100% - 113px)', lg: 30 },
+    left: { xs: 'calc(100% - 105px)', lg: 30 },
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
