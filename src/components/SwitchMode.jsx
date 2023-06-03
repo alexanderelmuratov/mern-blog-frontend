@@ -8,7 +8,7 @@ export default function SwitchMode({ mode, setMode }) {
   return (
     <Box sx={styles.switchModeWrapper}>
       {mode === 'light' ? (
-        <DarkMode fontSize="large" />
+        <DarkMode fontSize="large" color="primary" />
       ) : (
         <LightMode fontSize="large" />
       )}
@@ -19,9 +19,10 @@ export default function SwitchMode({ mode, setMode }) {
 
 const styles = {
   switchModeWrapper: {
+    zIndex: 1,
     position: 'fixed',
     top: 100,
-    left: { xs: 'calc(80%)', md: 30 },
+    left: { xs: 'calc(100% - 113px)', lg: 30 },
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

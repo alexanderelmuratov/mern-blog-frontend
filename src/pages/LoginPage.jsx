@@ -42,7 +42,7 @@ export default function LoginPage() {
   return (
     <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
       <Box sx={styles.loginWrapper}>
-        <Paper elevation={12} sx={{ width: '40%', padding: 5 }}>
+        <Paper elevation={12} sx={{ width: '460px', padding: 5 }}>
           <Typography component={'h2'} variant={'h5'} textAlign="center">
             Вход в аккаунт
           </Typography>

@@ -66,7 +66,8 @@ export default function Header() {
                   </Button>
                 </Link>
                 <Link to="/register">
-                  <Button variant="contained">Создать аккаунт</Button>
+                  {/* <Button variant="contained">Создать аккаунт</Button> */}
+                  <Button variant="contained">Регистрация</Button>
                 </Link>
               </Box>
             )}

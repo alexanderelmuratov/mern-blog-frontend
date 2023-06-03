@@ -43,7 +43,7 @@ export default function RegistrationPage() {
   return (
     <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
       <Box sx={styles.registerWrapper}>
-        <Paper elevation={12} sx={{ width: '40%', padding: 5 }}>
+        <Paper elevation={12} sx={{ width: '460px', padding: 5 }}>
           <Typography component={'h2'} variant={'h5'} textAlign="center">
             Создание аккаунта
           </Typography>
