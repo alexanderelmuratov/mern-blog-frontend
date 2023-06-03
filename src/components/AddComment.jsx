@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { Button, Card, TextField } from '@mui/material';
+import { Send } from '@mui/icons-material';
 import UserAvatar from './UserAvatar';
 
 export default function AddComment() {
@@ -19,8 +20,8 @@ export default function AddComment() {
           maxRows={10}
           fullWidth
         />
-        <Button variant="contained" size="large" sx={{ marginLeft: 3 }}>
-          Отправить
+        <Button variant="contained" sx={{ marginLeft: 3 }}>
+          <Send />
         </Button>
       </div>
     </Card>
