@@ -45,7 +45,6 @@ export const App = () => {
         >
           <Header />
           <SwitchMode mode={mode} setMode={setMode} />
-          {/* <Container maxWidth="lg" sx={{ paddingTop: '84px' }}> */}
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/posts" element={<PostsPage />} />
@@ -55,7 +54,6 @@ export const App = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegistrationPage />} />
           </Routes>
-          {/* </Container> */}
           <Footer />
           <ScrollTopButton />
           <ScrollToTop />
