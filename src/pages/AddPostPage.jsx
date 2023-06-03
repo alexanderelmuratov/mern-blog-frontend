@@ -96,13 +96,11 @@ export default function AddPostPage() {
         imageUrl,
       };
 
-      console.log(fields);
-
-      const { data } = id
+      id
         ? await axios.patch(`/posts/${id}`, fields)
         : await axios.post('/posts', fields);
 
-      navigate(`/posts/${data._id}`);
+      navigate('/posts');
     } catch (error) {
       console.log(error);
     } finally {

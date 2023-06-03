@@ -99,6 +99,7 @@ const styles = {
     alignItems: 'center',
   },
   userName: {
+    display: { xs: 'none', md: 'block' },
     marginRight: '20px',
     color: '#fff',
   },
