@@ -1,101 +1,85 @@
 import React from 'react';
-import {
-  Avatar,
-  Card,
-  Divider,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Typography,
-} from '@mui/material';
+import { Box, Card, List, ListItem, Typography } from '@mui/material';
+import ClampLines from 'react-clamp-lines';
+import UserAvatar from './UserAvatar';
 
-export default function CommentsBlock() {
+export default function CommentsBlock({ comments, isFullPost }) {
+  const formatedDate = date => new Date(date).toLocaleString().slice(0, -3);
+
   return (
     <Card sx={{ padding: 2 }}>
       <Typography
         variant="h5"
         color="text.primary"
-        sx={{ textAlign: 'center', marginBottom: 1 }}
+        sx={{ ...styles.title, textAlign: isFullPost ? 'start' : 'center' }}
       >
-        Последние комментарии
+        {isFullPost ? 'Комментарии' : 'Последние комментарии'}
       </Typography>
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        <ListItem key={1} alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar
-              alt="Remy Sharp"
-              src="https://material-ui.com/static/images/avatar/1.jpg"
-            />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <React.Fragment>
+      <List sx={{ maxWidth: isFullPost ? '100%' : 360 }}>
+        {comments.map(comment => (
+          <ListItem key={comment._id} sx={styles.commentItem}>
+            <UserAvatar user={comment.user} style={styles.userAvatar} />
+            <Box sx={styles.commentWrapper}>
+              <Box sx={styles.userDataWrapper}>
                 <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
+                  component="p"
+                  variant="body1"
                   color="text.primary"
+                  sx={{ marginRight: 2 }}
                 >
-                  Ali Connors
+                  {comment.user.fullName}
                 </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider key={2} variant="inset" component="li" />
-        <ListItem key={3} alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar
-              alt="Travis Howard"
-              src="https://material-ui.com/static/images/avatar/2.jpg"
-            />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Summer BBQ"
-            secondary={
-              <React.Fragment>
                 <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
+                  component="p"
                   variant="body2"
-                  color="text.primary"
+                  color="text.secondary"
                 >
-                  to Scott, Alex, Jennifer
+                  {formatedDate(comment.createdAt)}
                 </Typography>
-                {" — Wish I could come, but I'm out of town this…"}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider key={4} variant="inset" component="li" />
-        <ListItem key={5} alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar
-              alt="Cindy Baker"
-              src="https://material-ui.com/static/images/avatar/3.jpg"
-            />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Oui Oui"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  Sandra Adams
+              </Box>
+              {isFullPost ? (
+                <Typography component="p" variant="body2" color="text.primary">
+                  {comment.text}
                 </Typography>
-                {' — Do you have Paris recommendations? Have you ever…'}
-              </React.Fragment>
-            }
-          />
-        </ListItem>
+              ) : (
+                <ClampLines
+                  text={comment.text}
+                  lines={2}
+                  ellipsis="..."
+                  buttons={false}
+                  innerElement="p"
+                />
+              )}
+            </Box>
+          </ListItem>
+        ))}
       </List>
     </Card>
   );
 }
+
+const styles = {
+  title: {
+    marginBottom: 1,
+    paddingLeft: '16px',
+  },
+  commentItem: {
+    '&:not(:last-child)': {
+      borderBottom: '2px solid rgba(0, 0, 0, 0.2)',
+    },
+  },
+  commentWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  userDataWrapper: {
+    display: 'flex',
+    alignItems: 'baseline',
+    marginBottom: 1,
+  },
+  userAvatar: {
+    marginRight: 3,
+    alignSelf: 'baseline',
+    bgcolor: 'green',
+  },
+};

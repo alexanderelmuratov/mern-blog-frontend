@@ -6,10 +6,11 @@ import remarkGfm from 'remark-gfm';
 
 import { Box, Container } from '@mui/material';
 import Post from 'components/Post';
-import AddComment from 'components/AddComment';
+import AddPostButton from '../components/AddPostButton';
+import CommentsBlock from '../components/CommentsBlock';
+import AddComment from '../components/AddComment';
 
 import axios from '../axios';
-import AddPostButton from '../components/AddPostButton';
 
 export default function FullPostPage() {
   const [fullPost, setFullPost] = useState(null);
@@ -33,6 +34,19 @@ export default function FullPostPage() {
     };
     fetchFullPost();
   }, [id]);
+
+  const handleCommentSubmit = async text => {
+    try {
+      const newComment = {
+        text,
+      };
+
+      const { data } = await axios.post(`/posts/${id}`, newComment);
+      setFullPost(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (!localStorage.getItem('token') && !isAuth) {
     return <Navigate to="/login" />;
@@ -67,7 +81,10 @@ export default function FullPostPage() {
                 remarkPlugins={[remarkGfm]}
               />
             </Post>
-            <AddComment />
+            {fullPost.comments.length !== 0 && (
+              <CommentsBlock comments={fullPost.comments} isFullPost />
+            )}
+            <AddComment onCommentSubmit={handleCommentSubmit} />
           </>
         )}
         <AddPostButton />

@@ -9,7 +9,12 @@ import TagsBlock from '../components/TagsBlock';
 import CommentsBlock from '../components/CommentsBlock';
 import AddPostButton from '../components/AddPostButton';
 
-import { fetchPosts, fetchPostsByTag, fetchTags } from '../redux/slices/posts';
+import {
+  fetchPosts,
+  fetchPostsByTag,
+  fetchTags,
+  fetchComments,
+} from '../redux/slices/posts';
 
 export default function PostsPage() {
   const [activeTab, setActiveTab] = useState(0);
@@ -17,7 +22,7 @@ export default function PostsPage() {
   const [searchParams, setSearchParams] = useSearchParams({});
   const navigate = useNavigate();
 
-  const { posts, tags } = useSelector(state => state.posts);
+  const { posts, tags, comments } = useSelector(state => state.posts);
   const { userData, isAuth } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
@@ -26,6 +31,7 @@ export default function PostsPage() {
   useEffect(() => {
     if (!tagQuerry) dispatch(fetchPosts(activeTab));
     dispatch(fetchTags());
+    dispatch(fetchComments());
   }, [dispatch, activeTab, tagQuerry]);
 
   const handleTabChange = (event, newValue) => {
@@ -104,7 +110,10 @@ export default function PostsPage() {
                 isLoading={tags.isLoading}
                 onTagSubmit={handleTagSubmit}
               />
-              <CommentsBlock />
+              <CommentsBlock
+                comments={comments.items}
+                isLoading={comments.isLoading}
+              />
             </Box>
           </Grid>
         </Grid>

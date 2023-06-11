@@ -30,7 +30,7 @@ export default function Post({
   imageUrl,
   author,
   viewsCount,
-  commentsCount = 0,
+  commentsCount,
   tags,
   isFullPost,
   isLoading,
@@ -42,7 +42,7 @@ export default function Post({
   const dispatch = useDispatch();
   const confirm = useConfirm();
 
-  const formatedDate = new Date(createdAt).toLocaleString();
+  const formatedDate = new Date(createdAt).toLocaleString().slice(0, -3);
 
   const onClickRemove = async () => {
     await confirm({
@@ -50,7 +50,8 @@ export default function Post({
       confirmationText: 'Да',
       cancellationText: 'Нет',
     });
-    dispatch(fetchRemovePost(_id));
+    await dispatch(fetchRemovePost(_id));
+    navigate('/posts');
   };
 
   if (isLoading) return <PostSkeleton />;
@@ -107,6 +108,10 @@ export default function Post({
         avatar={<UserAvatar user={author} style={{ bgcolor: 'green' }} />}
         title={author.fullName}
         subheader={formatedDate}
+        sx={{
+          paddingLeft: '26px',
+          paddingTop: isFullPost && !imageUrl ? 10 : 2,
+        }}
       />
       <CardContent sx={{ paddingTop: 0 }}>
         <Box sx={{ paddingLeft: '10px' }}>
