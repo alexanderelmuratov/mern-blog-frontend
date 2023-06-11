@@ -3,6 +3,7 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Tabs, Tab, Box, Container, Typography } from '@mui/material';
 import { Tag } from '@mui/icons-material';
+import { RotatingTriangles } from 'react-loader-spinner';
 
 import Post from '../components/Post';
 import TagsBlock from '../components/TagsBlock';
@@ -104,17 +105,21 @@ export default function PostsPage() {
             )}
           </Grid>
           <Grid item xs={0} md={4}>
-            <Box position="fixed" sx={{ marginRight: '24px' }}>
-              <TagsBlock
-                tags={tags.items}
-                isLoading={tags.isLoading}
-                onTagSubmit={handleTagSubmit}
+            {tags.isLoading || comments.isLoading ? (
+              <RotatingTriangles
+                visible={true}
+                height="400"
+                width="400"
+                ariaLabel="rotating-triangels-loading"
+                wrapperStyle={{}}
+                wrapperClass="rotating-triangels-wrapper"
               />
-              <CommentsBlock
-                comments={comments.items}
-                isLoading={comments.isLoading}
-              />
-            </Box>
+            ) : (
+              <Box position="fixed" sx={{ marginRight: '24px' }}>
+                <TagsBlock tags={tags.items} onTagSubmit={handleTagSubmit} />
+                <CommentsBlock comments={comments.items} />
+              </Box>
+            )}
           </Grid>
         </Grid>
         <AddPostButton />

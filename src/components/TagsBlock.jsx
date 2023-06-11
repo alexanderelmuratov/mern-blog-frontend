@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Tag } from '@mui/icons-material';
 
-export default function TagsBlock({ tags, isLoading, onTagSubmit }) {
+export default function TagsBlock({ tags, onTagSubmit }) {
   return (
     <Card sx={{ padding: 2, marginBottom: 2 }}>
       <Typography

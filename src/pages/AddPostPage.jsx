@@ -23,8 +23,6 @@ export default function AddPostPage() {
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  console.log(isLoading);
 
   const isAuth = useSelector(state => state.auth.isAuth);
 
@@ -52,8 +50,6 @@ export default function AddPostPage() {
   const onChange = useCallback(value => {
     setText(value);
   }, []);
-
-  console.log(tags);
 
   const options = useMemo(
     () => ({
@@ -87,8 +83,6 @@ export default function AddPostPage() {
 
   const handleSubmit = async () => {
     try {
-      setIsLoading(true);
-
       const fields = {
         title,
         text,
@@ -103,8 +97,6 @@ export default function AddPostPage() {
       navigate('/posts');
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
