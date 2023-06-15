@@ -1,11 +1,19 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Box, Typography } from '@mui/material';
 
 import backgroundImage from '../images/background.jpg';
 import defaultLogo from '../images/logo.svg';
 
 export default function HomePage() {
+  const isAuth = useSelector(state => state.auth.isAuth);
+
   const logo = defaultLogo;
+
+  if (localStorage.getItem('token') && isAuth) {
+    return <Navigate to="/posts" />;
+  }
 
   return (
     <Box sx={styles.homePageWrapper}>
