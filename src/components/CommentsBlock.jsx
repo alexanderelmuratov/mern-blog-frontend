@@ -47,7 +47,7 @@ export default function CommentsBlock({ comments, isFullPost }) {
             ) : (
               <ClampLines
                 text={comment.text}
-                lines={2}
+                lines={3}
                 ellipsis="..."
                 buttons={false}
                 innerElement="p"

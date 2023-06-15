@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Grid, Tabs, Tab, Box, Container, Typography } from '@mui/material';
-import { Tag } from '@mui/icons-material';
+import {
+  Grid,
+  Tabs,
+  Tab,
+  Box,
+  Container,
+  Typography,
+  Pagination,
+  PaginationItem,
+} from '@mui/material';
+import { ArrowBack, ArrowForward, Tag } from '@mui/icons-material';
 import { RotatingTriangles } from 'react-loader-spinner';
 
 import Post from '../components/Post';
@@ -20,27 +29,42 @@ import {
 export default function PostsPage() {
   const [activeTab, setActiveTab] = useState(0);
 
-  const [searchParams, setSearchParams] = useSearchParams({});
-  const navigate = useNavigate();
-
   const { posts, tags, comments } = useSelector(state => state.posts);
   const { userData, isAuth } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams({});
+
   const tagQuerry = searchParams.get('tag') || '';
+  const pageQuerry = Number(searchParams.get('page')) || 1;
+
+  const limitPerPage = 3;
+  const totalPages = Math.ceil(posts.totalCount / limitPerPage);
 
   useEffect(() => {
-    if (!tagQuerry) dispatch(fetchPosts(activeTab));
+    tagQuerry
+      ? dispatch(fetchPostsByTag(tagQuerry))
+      : dispatch(fetchPosts({ activeTab, pageQuerry, limitPerPage }));
     dispatch(fetchTags());
     dispatch(fetchComments());
-  }, [dispatch, activeTab, tagQuerry]);
+  }, [dispatch, activeTab, tagQuerry, pageQuerry]);
 
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
+  const handleTabChange = (_, value) => {
+    setActiveTab(value);
+    setSearchParams({ page: 1 });
+  };
+
+  const handlePageChange = (_, value) => {
+    window.scrollTo(0, 0);
+    if (value) {
+      setSearchParams({ page: value });
+    } else {
+      setSearchParams({});
+    }
   };
 
   const handleTagSubmit = value => {
-    dispatch(fetchPostsByTag(value));
     if (value) {
       setSearchParams({ tag: value });
     } else {
@@ -54,7 +78,6 @@ export default function PostsPage() {
 
   return (
     <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
-      {/* <Box sx={{ position: 'relative' }}> */}
       {tagQuerry ? (
         <Box sx={styles.tagQuerryWrapper}>
           <Typography variant="h5" color="text.primary">
@@ -102,6 +125,26 @@ export default function PostsPage() {
               />
             )
           )}
+          {!tagQuerry && (
+            <Box sx={styles.paginationWrapper}>
+              <Pagination
+                count={totalPages}
+                page={pageQuerry}
+                defaultPage={1}
+                onChange={handlePageChange}
+                hidePrevButton={!totalPages}
+                hideNextButton={!totalPages}
+                size="large"
+                color="primary"
+                renderItem={item => (
+                  <PaginationItem
+                    slots={{ previous: ArrowBack, next: ArrowForward }}
+                    {...item}
+                  />
+                )}
+              />
+            </Box>
+          )}
         </Grid>
         <Grid item xs={0} md={4}>
           {tags.isLoading || comments.isLoading ? (
@@ -122,7 +165,6 @@ export default function PostsPage() {
         </Grid>
       </Grid>
       <AddPostButton />
-      {/* </Box> */}
     </Container>
   );
 }
@@ -134,5 +176,10 @@ const styles = {
     alignItems: 'center',
     paddingTop: 2,
     paddingBottom: 2,
+  },
+  paginationWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingY: 2,
   },
 };

@@ -3,18 +3,24 @@ import axios from '../../axios';
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
-  async (activeTab, thunkAPI) => {
+  async ({ activeTab, pageQuerry, limitPerPage }, thunkAPI) => {
     try {
       if (activeTab === 0) {
-        const { data } = await axios.get('/posts/new');
+        const { data } = await axios.get(
+          `/posts/new?page=${pageQuerry}&limit=${limitPerPage}`
+        );
         return data;
       }
       if (activeTab === 1) {
-        const { data } = await axios.get('/posts/popular');
+        const { data } = await axios.get(
+          `/posts/popular?page=${pageQuerry}&limit=${limitPerPage}`
+        );
         return data;
       }
       if (activeTab === 2) {
-        const { data } = await axios.get('/posts/own');
+        const { data } = await axios.get(
+          `/posts/own?page=${pageQuerry}&limit=${limitPerPage}`
+        );
         return data;
       }
     } catch (error) {
@@ -76,6 +82,7 @@ export const fetchRemovePost = createAsyncThunk(
 const initialState = {
   posts: {
     items: [],
+    totalCount: 0,
     isLoading: false,
   },
   tags: {
@@ -95,14 +102,17 @@ const postsSlice = createSlice({
     // Получение статей
     [fetchPosts.pending]: state => {
       state.posts.items = [];
+      state.posts.totalCount = 0;
       state.posts.isLoading = true;
     },
     [fetchPosts.fulfilled]: (state, action) => {
-      state.posts.items = action.payload;
+      state.posts.items = action.payload.posts;
+      state.posts.totalCount = action.payload.totalCount;
       state.posts.isLoading = false;
     },
     [fetchPosts.rejected]: state => {
       state.posts.items = [];
+      state.posts.totalCount = 0;
       state.posts.isLoading = false;
     },
     // Получение статей по тегу
