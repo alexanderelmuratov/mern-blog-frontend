@@ -111,11 +111,7 @@ export default function PostsPage() {
                 _id={post._id}
                 title={post.title}
                 createdAt={post.createdAt}
-                imageUrl={
-                  post.imageUrl
-                    ? `https://mern-blog-backend.herokuapp.com${post.imageUrl}`
-                    : ''
-                }
+                imageUrl={post.imageUrl ? post.imageUrl : ''}
                 author={post.user}
                 viewsCount={post.viewsCount}
                 commentsCount={post.commentsCount}

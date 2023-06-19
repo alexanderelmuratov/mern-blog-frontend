@@ -64,11 +64,7 @@ export default function FullPostPage() {
               title={fullPost.title}
               text={fullPost.text}
               createdAt={fullPost.createdAt}
-              imageUrl={
-                fullPost.imageUrl
-                  ? `https://mern-blog-backend.herokuapp.com${fullPost.imageUrl}`
-                  : ''
-              }
+              imageUrl={fullPost.imageUrl ? fullPost.imageUrl : ''}
               author={fullPost.user}
               viewsCount={fullPost.viewsCount}
               commentsCount={fullPost.commentsCount}

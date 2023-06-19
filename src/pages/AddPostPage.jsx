@@ -127,10 +127,7 @@ export default function AddPostPage() {
         )}
         {imageUrl && (
           <Box sx={styles.imageWrapper}>
-            <img
-              src={`https://mern-blog-backend.herokuapp.com${imageUrl}`}
-              alt="Uploaded"
-            />
+            <img src={imageUrl} alt="Uploaded" />
             <IconButton
               aria-label="close"
               onClick={removeImage}
