@@ -54,7 +54,7 @@ export default function FullPostPage() {
 
   return (
     <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
-      <Box sx={{ marginTop: 3, marginBottom: 3 }}>
+      <Box sx={{ marginTop: 3, marginBottom: { xs: 10, md: 3 } }}>
         {isLoading ? (
           <Post isLoading={isLoading} />
         ) : (
