@@ -22,12 +22,13 @@ import {
 import PostSkeleton from './Skeleton';
 import UserAvatar from './UserAvatar';
 import { fetchRemovePost } from 'redux/slices/posts';
+import axios from '../axios';
 
 export default function Post({
   _id,
   title,
   createdAt,
-  imageUrl,
+  image,
   author,
   viewsCount,
   commentsCount,
@@ -51,6 +52,9 @@ export default function Post({
       cancellationText: 'Нет',
     });
     await dispatch(fetchRemovePost(_id));
+    if (image.publicId) {
+      await axios.delete(`/uploads/${image.publicId}`);
+    }
     navigate('/posts');
   };
 
@@ -96,11 +100,11 @@ export default function Post({
           )}
         </>
       )}
-      {imageUrl && (
+      {image.url && (
         <CardMedia
           component="img"
           height="20%"
-          image={imageUrl}
+          image={image.url}
           alt="Post image"
         />
       )}
@@ -110,7 +114,7 @@ export default function Post({
         subheader={formatedDate}
         sx={{
           paddingLeft: '26px',
-          paddingTop: isFullPost && !imageUrl ? 10 : 2,
+          paddingTop: isFullPost && !image.url ? 10 : 2,
         }}
       />
       <CardContent sx={{ paddingTop: 0 }}>

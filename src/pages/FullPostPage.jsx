@@ -36,11 +36,11 @@ export default function FullPostPage() {
   }, [id]);
 
   const handleCommentSubmit = async text => {
-    try {
-      const newComment = {
-        text,
-      };
+    const newComment = {
+      text,
+    };
 
+    try {
       const { data } = await axios.post(`/posts/${id}`, newComment);
       setFullPost(data);
     } catch (error) {
@@ -64,7 +64,7 @@ export default function FullPostPage() {
               title={fullPost.title}
               text={fullPost.text}
               createdAt={fullPost.createdAt}
-              imageUrl={fullPost.imageUrl ? fullPost.imageUrl : ''}
+              image={fullPost.image ? fullPost.image : {}}
               author={fullPost.user}
               viewsCount={fullPost.viewsCount}
               commentsCount={fullPost.commentsCount}

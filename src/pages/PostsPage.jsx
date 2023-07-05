@@ -65,6 +65,7 @@ export default function PostsPage() {
   };
 
   const handleTagSubmit = value => {
+    window.scrollTo(0, 0);
     if (value) {
       setSearchParams({ tag: value });
     } else {
@@ -111,7 +112,7 @@ export default function PostsPage() {
                 _id={post._id}
                 title={post.title}
                 createdAt={post.createdAt}
-                imageUrl={post.imageUrl ? post.imageUrl : ''}
+                image={post.image ? post.image : {}}
                 author={post.user}
                 viewsCount={post.viewsCount}
                 commentsCount={post.commentsCount}
@@ -121,15 +122,15 @@ export default function PostsPage() {
               />
             )
           )}
-          {!tagQuerry && (
+          {!tagQuerry && totalPages > 1 && (
             <Box sx={styles.paginationWrapper}>
               <Pagination
                 count={totalPages}
                 page={pageQuerry}
                 defaultPage={1}
                 onChange={handlePageChange}
-                hidePrevButton={!totalPages}
-                hideNextButton={!totalPages}
+                hidePrevButton={totalPages <= 1}
+                hideNextButton={totalPages <= 1}
                 size="large"
                 color="primary"
                 renderItem={item => (

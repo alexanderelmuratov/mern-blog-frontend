@@ -22,7 +22,7 @@ export default function AddPostPage() {
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [image, setImage] = useState({});
 
   const isAuth = useSelector(state => state.auth.isAuth);
 
@@ -36,14 +36,14 @@ export default function AddPostPage() {
           setTitle(data.title);
           setText(data.text);
           setTags(data.tags.join(' '));
-          setImageUrl(data.imageUrl);
+          setImage(data.image);
         })
         .catch(error => console.log(error));
     } else {
       setTitle('');
       setText('');
       setTags('');
-      setImageUrl('');
+      setImage({});
     }
   }, [id]);
 
@@ -73,13 +73,16 @@ export default function AddPostPage() {
       formData.append('image', file);
 
       const { data } = await axios.post('/uploads', formData);
-      setImageUrl(data.url);
+      setImage(data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const removeImage = () => setImageUrl('');
+  const removeImage = async () => {
+    await axios.delete(`/uploads/${image.publicId}`);
+    setImage({});
+  };
 
   const handleSubmit = async () => {
     try {
@@ -87,7 +90,7 @@ export default function AddPostPage() {
         title,
         text,
         tags: tags.split(' '),
-        imageUrl,
+        image,
       };
 
       id
@@ -100,6 +103,14 @@ export default function AddPostPage() {
     }
   };
 
+  const handleCancel = async () => {
+    if (image?.publicId) {
+      await axios.delete(`/uploads/${image.publicId}`);
+      setImage({});
+    }
+    navigate(-1);
+  };
+
   if (!localStorage.getItem('token') && !isAuth) {
     return <Navigate to="/login" />;
   }
@@ -107,7 +118,18 @@ export default function AddPostPage() {
   return (
     <Container maxWidth="lg" sx={{ paddingTop: '84px' }}>
       <Paper sx={styles.addPostWrapper}>
-        {!imageUrl && (
+        {image?.url ? (
+          <Box sx={styles.imageWrapper}>
+            <img src={image.url} alt="Uploaded" />
+            <IconButton
+              aria-label="close"
+              onClick={removeImage}
+              sx={styles.closeButton}
+            >
+              <Close fontSize="large" />
+            </IconButton>
+          </Box>
+        ) : (
           <>
             <Button
               onClick={() => inputFileRef.current.click()}
@@ -124,18 +146,6 @@ export default function AddPostPage() {
               hidden
             />
           </>
-        )}
-        {imageUrl && (
-          <Box sx={styles.imageWrapper}>
-            <img src={imageUrl} alt="Uploaded" />
-            <IconButton
-              aria-label="close"
-              onClick={removeImage}
-              sx={styles.closeButton}
-            >
-              <Close fontSize="large" />
-            </IconButton>
-          </Box>
         )}
         <TextField
           value={title}
@@ -164,7 +174,7 @@ export default function AddPostPage() {
           >
             {id ? 'Сохранить' : 'Опубликовать'}
           </Button>
-          <Button onClick={() => navigate(-1)} variant="outlined" size="large">
+          <Button onClick={handleCancel} variant="outlined" size="large">
             Отмена
           </Button>
         </Box>
