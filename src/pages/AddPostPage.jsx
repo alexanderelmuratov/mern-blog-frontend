@@ -104,7 +104,7 @@ export default function AddPostPage() {
   };
 
   const handleCancel = async () => {
-    if (image?.publicId) {
+    if (image?.publicId && !id) {
       await axios.delete(`/uploads/${image.publicId}`);
       setImage({});
     }
