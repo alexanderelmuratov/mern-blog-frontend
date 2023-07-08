@@ -10,7 +10,7 @@ import './index.css';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
     <CssBaseline />
-    <BrowserRouter basename="/mern-blog-frontend">
+    <BrowserRouter basename="/">
       <Provider store={store}>
         <App />
       </Provider>
